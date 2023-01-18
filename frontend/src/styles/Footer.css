@@ -1,0 +1,18 @@
+footer {
+    color: black;
+    background: rgba(0, 0, 0, 0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height:50px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+.text-footer1 {
+    margin-left:2%;
+}
+
+.text-footer2 {
+    margin-right:2%;
+}

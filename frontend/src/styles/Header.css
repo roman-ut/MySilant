@@ -1,0 +1,23 @@
+header {
+    color: white;
+    background: rgba(0, 0, 0, 0.79);
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    vertical-align: middle;
+    margin: 0 auto;
+}
+
+.auth {
+    padding-right: 2%;
+}
+
+h2{
+    padding-right: 10%;
+}
+
+
+.logo {
+    width:200px;
+}
