@@ -22,6 +22,7 @@ function Header({setIsLoggedIn, isLoggedIn, token, setToken}:any) {
             setIsLoggedIn('true');
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('Token',JSON.parse(JSON.stringify(tok)).auth_token);
+
             return {setToken,setIsLoggedIn}
         }
         ).catch((err:ApiError) => {
@@ -46,7 +47,7 @@ function Header({setIsLoggedIn, isLoggedIn, token, setToken}:any) {
            <h2 className="text-header">Электронная сервисная книжка "Мой Силант" </h2>
            { isLoggedIn !== 'true' &&
            <>
-               <Button variant="outline-light" onClick={handleShow}>
+               <Button id="btn-head" variant="outline-light" onClick={handleShow}>
                    Войти
                </Button>
                <Modal className="modal-sm" show={showModal} onHide={handleClose}>
@@ -73,7 +74,7 @@ function Header({setIsLoggedIn, isLoggedIn, token, setToken}:any) {
        }
            { isLoggedIn === 'true' &&
                <>
-                   <Button variant="outline-light" onClick={handleLogOut}>
+                   <Button id="btn-head" variant="outline-light" onClick={handleLogOut}>
                        Выйти
                    </Button>
                </>

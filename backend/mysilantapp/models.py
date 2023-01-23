@@ -56,7 +56,7 @@ class ModelSteeringAxle(ReferenceBook):
 
 
 class ServiceCompany(ReferenceBook):
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    user = models.ForeignKey(UserSilant, on_delete=models.PROTECT)
 
 
 class Machine(models.Model):
@@ -75,26 +75,32 @@ class Machine(models.Model):
     consignee = models.CharField(max_length=30)
     addressOperation = models.CharField(max_length=128)
     equipment = models.CharField(max_length=400)
-    userClient = models.ForeignKey(User, on_delete=models.PROTECT)
-    userService = models.ForeignKey(ServiceCompany, on_delete=models.PROTECT)
+    userClient = models.ForeignKey(User, on_delete=models.PROTECT, related_name='client')
+    userService = models.ForeignKey(ServiceCompany, on_delete=models.PROTECT, related_name='service')
 
     def __str__(self):
         return f'{self.modelM.title}'
 
-    def modelm_title(self) -> list:
+    def modelm_title(self) -> str:
         return self.modelM.title
 
-    def modele_title(self) -> list:
+    def modele_title(self) -> str:
         return self.modelE.title
 
-    def modelt_title(self) -> list:
+    def modelt_title(self) -> str:
         return self.modelT.title
 
-    def modelda_title(self) -> list:
+    def modelda_title(self) -> str:
         return self.modelDA.title
 
-    def modelsa_title(self) -> list:
+    def modelsa_title(self) -> str:
         return self.modelSA.title
+
+    def service_company(self) -> str:
+        return f'{self.userService.title}: {self.userService.user.silUser.username}'
+
+    def user(self) -> str:
+        return f'{self.userClient.username}'
 
 
 class TypeMaintenance(ReferenceBook):
@@ -102,13 +108,22 @@ class TypeMaintenance(ReferenceBook):
 
 
 class Maintenance(models.Model):
-    type = models.ForeignKey(TypeMaintenance, on_delete=models.PROTECT)
+    type = models.ForeignKey(TypeMaintenance, on_delete=models.PROTECT, null=True)
     date = models.DateField()
-    operTime = models.PositiveIntegerField
+    operTime = models.PositiveIntegerField()
     workOrder = models.CharField(max_length=30)
     dateWorkOrder = models.DateField()
     serviceCompany = models.ForeignKey(ServiceCompany, on_delete=models.PROTECT)
     machine = models.ForeignKey(Machine, on_delete=models.PROTECT, blank=True)
+
+    def service_company(self) -> str:
+        return f'{self.serviceCompany.title}: {self.serviceCompany.user.silUser.username}'
+
+    def machine_title(self) -> str:
+        return f'{self.machine.modelM.title}: {self.machine.serNumM}'
+
+    def type_title(self) -> list:
+        return self.type.title
 
 
 class TypeFailure(ReferenceBook):
@@ -121,7 +136,7 @@ class RecoveryMethod(ReferenceBook):
 
 class Claim(models.Model):
     dateRejection = models.DateField()
-    operTime = models.PositiveIntegerField
+    operTime = models.PositiveIntegerField()
     typeFailure = models.ForeignKey(TypeFailure, on_delete=models.PROTECT)
     failDescription = models.CharField(max_length=128)
     recMethod = models.ForeignKey(RecoveryMethod, on_delete=models.PROTECT)
@@ -133,3 +148,15 @@ class Claim(models.Model):
     def save(self, *args, **kwargs):
         self.downtime = (self.dateRecovery - self.dateRejection).days
         return super(Claim, self).save(*args, **kwargs)
+
+    def typefailure_title(self) -> str:
+        return f'{self.typeFailure.title}'
+
+    def recmethode_title(self) -> str:
+        return f'{self.recMethod.title}'
+
+    def machine_title(self) -> str:
+        return f'{self.machine.modelM.title}: {self.machine.serNumM}'
+
+    def service_company(self) -> str:
+        return f'{self.machine.userService.title}: {self.machine.userService.user.silUser.username}'
