@@ -10,13 +10,19 @@ import { request as __request } from '../core/request';
 export class UsgroupService {
 
     /**
+     * @param search A search term.
      * @returns UserSilant 
      * @throws ApiError
      */
-    public static usgroupList(): CancelablePromise<Array<UserSilant>> {
+    public static usgroupList(
+search?: string,
+): CancelablePromise<Array<UserSilant>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/usgroup/',
+            query: {
+                'search': search,
+            },
         });
     }
 

@@ -2,10 +2,10 @@ import React, {useState} from "react";
 import "../styles/Header.css";
 import logo from "../images/Logotype_1.svg";
 import {Button, Modal} from "react-bootstrap";
-import {ApiError, AuthService} from "../api";
+import {ApiError, AuthService, UsgroupService} from "../api";
 
 
-function Header({setIsLoggedIn, isLoggedIn, token, setToken}:any) {
+function Header({setIsLoggedIn, isLoggedIn, setToken, setName, setCatUser}:any) {
 
     const [showModal, setShow] = useState(false);
     const handleShow = () => setShow(true);
@@ -18,33 +18,43 @@ function Header({setIsLoggedIn, isLoggedIn, token, setToken}:any) {
             password: pass,
             username: login
         }).then((tok:{}) => {
-            setToken(JSON.parse(JSON.stringify(tok)).auth_token)
+            setToken(JSON.parse(JSON.stringify(tok)).auth_token);
             setIsLoggedIn('true');
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('Token',JSON.parse(JSON.stringify(tok)).auth_token);
-
+            UsgroupService.usgroupList(login).then((name) => {
+                name.map((i) => ((
+                        setName(i.fila_name),
+                        setCatUser(i.categoryType),
+                        localStorage.setItem('name', JSON.parse(JSON.stringify(i.fila_name))),
+                        localStorage.setItem('catUser', JSON.parse(JSON.stringify(i.categoryType)))
+                    ))
+                )
+            })
             return {setToken,setIsLoggedIn}
-        }
-        ).catch((err:ApiError) => {
-            console.log(JSON.stringify(err))
+        }).catch((err:ApiError) => {
+            alert('Неверный логин или пароль!')
+            console.log(JSON.stringify(err));
         }).then(() => {
-            setShow(false)
-            window.location.reload()
+            setShow(false);
+            // window.location.reload();
         })
     };
 
-    function handleLogOut () {
-        AuthService.authTokenLogoutCreate()
+    function handleLogOut() {
+        AuthService.authTokenLogoutCreate();
         setIsLoggedIn('false');
-        localStorage.removeItem('Token')
-        localStorage.setItem('isLoggedIn', 'false')
-        window.location.reload()
+        localStorage.removeItem('Token');
+        localStorage.removeItem('name');
+        localStorage.removeItem('catUser');
+        localStorage.setItem('isLoggedIn', 'false');
+        window.location.reload();
     }
 
     return (
        <header>
            <img className="logo" src={logo} alt="логотип" />
-           <h2 className="text-header">Электронная сервисная книжка "Мой Силант" </h2>
+           <h2 className="text-header">Электронная сервисная книжка "Мой Силант"</h2>
            { isLoggedIn !== 'true' &&
            <>
                <Button id="btn-head" variant="outline-light" onClick={handleShow}>

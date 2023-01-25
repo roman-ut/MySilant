@@ -5,6 +5,7 @@
 export type Maintenance = {
     readonly id?: number;
     readonly type_title?: string;
+    readonly type_description?: string;
     date: string;
     operTime: number;
     workOrder: string;

@@ -1,12 +1,11 @@
+from django.db.models import Q
 from rest_framework import filters
-from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.authentication import TokenAuthentication
 from . import serializers
 from .filters import MachineFilter, MaintenanceFilter, ClaimFilter
 from .models import *
-from django.db.models import Q
-
 from .serializers import MaintenanceSerializer, ClaimSerializer
 
 
@@ -14,6 +13,8 @@ class UserCroupView(ListAPIView):
     serializer_class = serializers.UserSilantSerializer
     queryset = UserSilant.objects.all()
     permission_classes = (AllowAny,)
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['silUser__username']
 
 
 class MachineAPIViewPublic(ListAPIView):
@@ -37,14 +38,13 @@ class MachineAPIView(ListCreateAPIView):
         context['filter'] = MachineFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
-    # def get_queryset(self):
-    #     user = self.request.user
-    #     if not UserSilant.objects.get(silUser=user).categoryType == "MG":
-    #         return Machine.objects.filter(Q(userClient=user) | Q
-    #         (userService=ServiceCompany.objects.get(user=UserSilant.objects.get(silUser=user)).id))
-    #
-    #     else:
-    #         return Machine.objects.all()
+    def get_queryset(self):
+        user = self.request.user
+        if not UserSilant.objects.get(silUser=user).categoryType == "MG":
+            return Machine.objects.filter(userService=ServiceCompany.objects.get(user=UserSilant.objects.get(silUser=user)).id)
+
+        else:
+            return Machine.objects.all()
 
 
 class MachineAPIViewDetail(RetrieveUpdateDestroyAPIView):

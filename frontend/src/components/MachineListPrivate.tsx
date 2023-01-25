@@ -23,13 +23,29 @@ function MachineItem(props:Machine) {
                     {props.serNumM}
                 </Link>
             </td>
-            <td>{props.modele_title}</td>
+            <td>
+                <Link to="/refbook" state={{title: props.modele_title, description: props.modele_description}}>
+                    {props.modele_title}
+                </Link>
+            </td>
             <td>{props.serNumE}</td>
-            <td>{props.modelt_title}</td>
+            <td>
+                <Link to="/refbook" state={{title: props.modelt_title , description: props.modelt_description}}>
+                    {props.modelt_title}
+                </Link>
+            </td>
             <td>{props.serNumT}</td>
-            <td>{props.modelda_title}</td>
+            <td>
+                <Link to="/refbook" state={{title: props.modelda_title , description: props.modelda_description}}>
+                 {props.modelda_title}
+                </Link>
+            </td>
             <td>{props.serNumDA}</td>
-            <td>{props.modelsa_title}</td>
+            <td>
+                <Link to="/refbook" state={{title: props.modelsa_title , description: props.modelsa_description}}>
+                    {props.modelsa_title}
+                </Link>
+            </td>
             <td>{props.serNumSA}</td>
             <td>{props.dateShipmentFactory}</td>
         </tr>
@@ -43,7 +59,7 @@ function ItemRefBook(props:any) {
     );
 }
 
-export default function MachineListPrivate({isLoggedIn}: any) {
+export default function MachineListPrivate({isLoggedIn, catUser }: any) {
     const [machines, setMachines] = useState<Machine[]>();
     // if (isLoggedIn === 'true') {}
     const loadMachine  = async () => {
@@ -140,13 +156,15 @@ export default function MachineListPrivate({isLoggedIn}: any) {
 
     return (
         <div>
-            { isLoggedIn === 'true' &&
             <>
                 <h3>Информация о комплектации и технических характеристиках Вашей техники Силант</h3>
                 <div id='but-muchitem1'>
-                    <Button variant="outline-secondary" onClick={() => setShow(true)}>
-                        Добавить машину
-                    </Button>
+                    {catUser === 'MG' &&
+                        <Button variant="outline-secondary" onClick={() => setShow(true)}>
+                            Добавить машину
+                        </Button>
+
+                    }
                 </div>
                 <Modal
                     show={show}
@@ -434,10 +452,6 @@ export default function MachineListPrivate({isLoggedIn}: any) {
                     </Table>
                 </div>
              </>
-            }
-            { isLoggedIn !== 'true' &&
-                <h1>Вы не авторизированы!</h1>
-            }
         </div>
     );
 }

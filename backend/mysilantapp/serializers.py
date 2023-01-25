@@ -6,7 +6,7 @@ class UserSilantSerializer(ModelSerializer):
 
     class Meta:
         model = UserSilant
-        fields = ('id', 'silUser', 'user_name', 'categoryType')
+        fields = ('id', 'silUser', 'user_name', 'categoryType', 'fila_name')
 
 
 class MachinePublicSerializer(ModelSerializer):
@@ -21,17 +21,18 @@ class MachineSerializer(ModelSerializer):
 
     class Meta:
         model = Machine
-        fields = ('id', 'serNumM', 'modelM', 'modelm_title', 'modelE', 'modele_title', 'serNumE', 'modelT',
-                  'modelt_title', 'serNumT', 'modelDA', 'modelda_title',   'serNumDA', 'modelSA', 'modelsa_title',
-                  'serNumSA', 'NumSupContract', 'dateShipmentFactory', 'consignee', 'addressOperation', 'equipment',
-                  'user', 'userClient', 'service_company', 'userService')
+        fields = ('id', 'serNumM', 'modelM', 'modelm_title', 'modelm_description', 'modelE', 'modele_title',
+                  'modele_description', 'serNumE', 'modelT', 'modelt_title', 'modelt_description', 'serNumT',
+                  'modelDA', 'modelda_title', 'modelda_description', 'serNumDA', 'modelSA', 'modelsa_title',
+                  'modelsa_description', 'serNumSA', 'NumSupContract', 'dateShipmentFactory', 'consignee',
+                  'addressOperation', 'equipment', 'user', 'userClient', 'service_company', 'userService')
 
 
 class MaintenanceSerializer(ModelSerializer):
 
     class Meta:
         model = Maintenance
-        fields = ('id', 'type_title', 'date', 'operTime', 'workOrder', 'dateWorkOrder',
+        fields = ('id', 'type_title', 'type_description', 'date', 'operTime', 'workOrder', 'dateWorkOrder',
                   'service_company', 'machine_title', 'serviceCompany', 'machine', 'type')
 
 
@@ -39,9 +40,9 @@ class ClaimSerializer(ModelSerializer):
 
     class Meta:
         model = Claim
-        fields = ('id', 'dateRejection', 'operTime', 'typefailure_title', 'failDescription', 'recmethode_title',
-                  'spareParts', 'dateRecovery', 'downtime', 'machine_title', 'service_company', 'typeFailure',
-                  'recMethod', 'machine')
+        fields = ('id', 'dateRejection', 'operTime', 'typefailure_title', 'typefailure_description',
+                  'failDescription', 'recmethode_title', 'recmethode_description', 'spareParts', 'dateRecovery',
+                  'downtime', 'machine_title', 'service_company', 'typeFailure', 'recMethod', 'machine')
 
 class ModelMachineSerializer(ModelSerializer):
     class Meta:

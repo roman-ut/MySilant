@@ -23,10 +23,13 @@ class UserSilant(models.Model):
     def user_name(self) -> str:
         return self.silUser.username
 
+    def fila_name(self) -> str:
+        return f'{self.silUser.last_name} {self.silUser.first_name}'
+
 
 class ReferenceBook(models.Model):
     title = models.CharField(max_length=30)
-    description = models.CharField(max_length=400, blank=True, null=True)
+    description = models.CharField(max_length=5000, blank=True, null=True)
 
     class Meta:
         abstract = True
@@ -84,17 +87,32 @@ class Machine(models.Model):
     def modelm_title(self) -> str:
         return self.modelM.title
 
+    def modelm_description(self) -> str:
+        return self.modelM.description
+
     def modele_title(self) -> str:
         return self.modelE.title
+
+    def modele_description(self) -> str:
+        return self.modelE.description
 
     def modelt_title(self) -> str:
         return self.modelT.title
 
+    def modelt_description(self) -> str:
+        return self.modelT.description
+
     def modelda_title(self) -> str:
         return self.modelDA.title
 
+    def modelda_description(self) -> str:
+        return self.modelDA.description
+
     def modelsa_title(self) -> str:
         return self.modelSA.title
+
+    def modelsa_description(self) -> str:
+        return self.modelSA.description
 
     def service_company(self) -> str:
         return f'{self.userService.title}: {self.userService.user.silUser.username}'
@@ -125,6 +143,9 @@ class Maintenance(models.Model):
     def type_title(self) -> list:
         return self.type.title
 
+    def type_description(self) -> list:
+        return self.type.description
+
 
 class TypeFailure(ReferenceBook):
     pass
@@ -152,8 +173,14 @@ class Claim(models.Model):
     def typefailure_title(self) -> str:
         return f'{self.typeFailure.title}'
 
+    def typefailure_description(self) -> str:
+        return f'{self.typeFailure.description}'
+
     def recmethode_title(self) -> str:
         return f'{self.recMethod.title}'
+
+    def recmethode_description(self) -> str:
+        return f'{self.recMethod.description}'
 
     def machine_title(self) -> str:
         return f'{self.machine.modelM.title}: {self.machine.serNumM}'

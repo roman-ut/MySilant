@@ -9,9 +9,10 @@ import {
 import Table from "react-bootstrap/Table";
 import "../styles/MachineListPrivate.css";
 import Form from 'react-bootstrap/Form';
+import {Link} from "react-router-dom";
 
 
-function ClaimItem(props:Claim) {
+function ClaimItem(props:Claim,  ) {
 
     return (
         <tr className={"claim"}>
@@ -19,9 +20,19 @@ function ClaimItem(props:Claim) {
             <td>{props.machine_title}</td>
             <td>{props.dateRejection}</td>
             <td>{props.operTime}</td>
-            <td>{props.typefailure_title}</td>
+            <td>
+                <Link to="/refbook" state={{title: props.typefailure_title,
+                    description: props.typefailure_description}}>
+                    {props.typefailure_title}
+                </Link>
+            </td>
             <td>{props.failDescription}</td>
-            <td>{props.recmethode_title}</td>
+            <td>
+                <Link to="/refbook" state={{title: props.recmethode_title,
+                    description: props.recmethode_description}}>
+                    {props.recmethode_title}
+                </Link>
+            </td>
             <td>{props.spareParts}</td>
             <td>{props.dateRecovery}</td>
             <td>{props.downtime}</td>
@@ -39,7 +50,7 @@ function ItemRefBook(props:any) {
 
 }
 
-export default function ClaimList({isLoggedIn}: any) {
+export default function ClaimList({isLoggedIn}: any, {catUser}:any) {
     const [claims, setClaims] = useState<Claim[]>();
     // if (isLoggedIn === 'true') {}
     const loadClaim  = async () => {

@@ -11,7 +11,7 @@ import {
 import Table from "react-bootstrap/Table";
 import "../styles/MachineListPrivate.css";
 import Form from 'react-bootstrap/Form';
-
+import {Link} from "react-router-dom";
 
 function MaintenanceItem(props:Maintenance) {
 
@@ -19,7 +19,11 @@ function MaintenanceItem(props:Maintenance) {
         <tr className={"maintenance"}>
             <td>{props.id}</td>
             <td>{props.machine_title}</td>
-            <td>{props.type_title}</td>
+            <td>
+                <Link to="/refbook" state={{title: props.type_title, description: props.type_description}}>
+                    {props.type_title}
+                </Link>
+            </td>
             <td>{props.date}</td>
             <td>{props.operTime}</td>
             <td>{props.workOrder}</td>

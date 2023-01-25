@@ -36,7 +36,7 @@ import Form from 'react-bootstrap/Form';
 import MaintenanceItem from "./MaintenanceItem";
 import ClaimItem from "./ClaimItem";
 
-function MachineItem() {
+function MachineItem({catUser}:any) {
     const location = useLocation();
     const {MachineItem} = location.state;
     const [maintenances, setMaintenances] = useState<Maintenance[]>();
@@ -254,214 +254,224 @@ function MachineItem() {
                         <h5 id='accor-body'>Информация о комплектации и технических характеристиках</h5>
                     </Accordion.Header>
                     <Accordion.Body >
-                        <div id='but-muchitem1'>
-                            <Button variant="outline-secondary" onClick={() => setShow(true)}>
-                                Редактировать машину
-                            </Button>
-                            <Modal
-                                show={show}
-                                onHide={() => setShow(false)}
-                                dialogClassName="modal-90w"
-                                aria-labelledby="example-custom-modal-styling-title"
-                                fullscreen={true}
-                            >
-                                <Modal.Header closeButton>
-                                    <Modal.Title id="example-custom-modal-styling-title">
-                                        Редактирование информации о комплектации и технических характеристиках
-                                    </Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
-                                    <div className="table1">
-                                        <h5>Технические характеристики</h5>
-                                        <Table striped bordered hover className={"table12"} size="sm">
-                                            <thead>
-                                            <tr>
-                                                <th>Зав. № машины</th>
-                                                <th>Модель машины</th>
-                                                <th>Модель двигателя</th>
-                                                <th>Зав. № двигателя</th>
-                                                <th>Модель трансмиссии</th>
-                                                <th>Зав. № трансмиссии</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody><tr>
-                                                <td>
-                                                    <Form.Control size="sm" type="text" value={serNumM}
-                                                                    onChange={e => setSerNumM(e.target.value)}/>
-                                                </td>
-                                                <td>
-                                                    <Form.Select aria-label="" size="sm"
-                                                                 onChange={(e) => {
-                                                                     if (modM) {
-                                                                         _setModM_i(modM[e.target.selectedIndex]);
-                                                                     }
-                                                                 }}>
-                                                        {modM && modM.map((i) => {
-                                                            return <option id={modM_i} selected key={i.id}>
-                                                                {i.title}
-                                                            </option>;
-                                                        })});
-                                                    </Form.Select>
-                                                </td>
-                                                <td>
-                                                    <Form.Select aria-label="" size="sm"
-                                                                 onChange={(e) => {
-                                                                     if (modE) {
-                                                                         _setModE_i(modE[e.target.selectedIndex]);
-                                                                     }
-                                                                 }}>
-                                                        {modE && modE.map((i) => {
-                                                            return <option id={modE_i} selected key={i.id}>
-                                                                {i.title}
-                                                            </option>;
-                                                        })});
-                                                    </Form.Select>
-                                                </td>
-                                                <td>
-                                                    <Form.Control size="sm" type="text" value={serNumE}
-                                                                  onChange={e => setSerNumE(e.target.value)}/>
-                                                </td>
-                                                <td>
-                                                    <Form.Select aria-label="" size="sm"
-                                                                 onChange={(e) => {
-                                                                     if (modT) {
-                                                                         _setModT_i(modT[e.target.selectedIndex]);
-                                                                     }
-                                                                 }}>
-                                                        {modT && modT.map((i) => {
-                                                            return <option id={modT_i} selected key={i.id}>{i.title}</option>;
-                                                        })});
-                                                    </Form.Select>
-                                                </td>
-                                                <td>
-                                                    <Form.Control size="sm" type="text" value={serNumT}
-                                                                  onChange={e => setSerNumT(e.target.value)}/>
-                                                </td>
-                                            </tr></tbody>
-                                        </Table>
-                                        <Table striped bordered hover className={"table12"} size="sm">
-                                            <thead>
-                                            <tr>
-                                                <th>Модель ведущего моста</th>
-                                                <th>Зав. № ведущего моста</th>
-                                                <th>Модель управляемого моста</th>
-                                                <th>Зав. № управляемого моста</th>
-                                                <th>Договор поставки №, дата</th>
-                                                <th>Дата отгрузки с завода</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody><tr>
-                                                <td>
-                                                    <Form.Select aria-label="" size="sm"
-                                                                 onChange={(e) => {
-                                                                     if (modD) {
-                                                                         _setModD_i(modD[e.target.selectedIndex]);
-                                                                     }
-                                                                 }}>
-                                                        {modD && modD.map((i) => {
-                                                            return <option id={modD_i} selected key={i.id}>
-                                                                {i.title}
-                                                            </option>;
-                                                        })});
-                                                    </Form.Select>
-                                                </td>
-                                                <td>
-                                                    <Form.Control size="sm" type="text" value={serNumD}
-                                                                  onChange={e => setSerNumD(e.target.value)}/>
-                                                </td>
-                                                <td>
-                                                    <Form.Select aria-label="" size="sm"
-                                                                 onChange={(e) => {
-                                                                     if (modS) {
-                                                                         _setModS_i(modS[e.target.selectedIndex]);
-                                                                     }
-                                                                 }}>
-                                                        {modS && modS.map((i) => {
-                                                            return <option id={modS_i} selected key={i.id}>{i.title}</option>;
-                                                        })});
-                                                    </Form.Select>
-                                                </td>
-                                                <td>
-                                                    <Form.Control size="sm" type="text" value={serNumS}
-                                                                  onChange={e => setSerNumS(e.target.value)}/>
-                                                </td>
-                                                <td>
-                                                    <Form.Control size="sm" type="text" value={contract}
-                                                                  onChange={e => setContract(e.target.value)}/>
-                                                </td>
-                                                <td>
-                                                    <Form.Control size="sm" type="date" value={dateShF}
-                                                                  onChange={e => setDateShF(e.target.value)}/>
-                                                </td>
-                                            </tr></tbody>
-                                        </Table>
-                                        <h5>Комплектация и иные сведения</h5>
-                                        <Table striped bordered hover className={"table12"} size="sm">
-                                            <thead>
-                                            <tr>
-                                                <th>Грузополучатель (конечный потребитель)</th>
-                                                <th>Адрес поставки (эксплуатации)</th>
-                                                <th>Комплектация (доп. опции)</th>
-                                                <th>Сервисная компания</th>
-                                                <th>Клиент</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody><tr>
-                                                <td>
-                                                    <Form.Control size="sm" type="text" value={consignee}
-                                                                  onChange={e => setConsignee(e.target.value)}/>
-                                                </td>
-                                                <td>
-                                                    <Form.Control size="sm" type="text" value={address}
-                                                                  onChange={e => setAddress(e.target.value)}/>
-                                                </td>
-                                                <td>
-                                                    <Form.Control size="sm" type="text" value={equipment}
-                                                                  onChange={e => setEquipment(e.target.value)}/>
-                                                </td>
-                                                <td>
-                                                    <Form.Select aria-label="" size="sm"
-                                                                 onChange={(e) => {
-                                                                     if (serCom) {
-                                                                         _setSerCom_i(serCom[e.target.selectedIndex]);
-                                                                     }
-                                                                 }}>
-                                                        {serCom && serCom.map((i) => {
-                                                            return <option id={serCom_i} selected key={i.id}>
-                                                                {i.title}
+                        {catUser === 'MG' &&
+                            <div id='but-muchitem1'>
+                                <Button variant="outline-secondary" onClick={() => setShow(true)}>
+                                    Редактировать машину
+                                </Button>
+                                <Modal
+                                    show={show}
+                                    onHide={() => setShow(false)}
+                                    dialogClassName="modal-90w"
+                                    aria-labelledby="example-custom-modal-styling-title"
+                                    fullscreen={true}
+                                >
+                                    <Modal.Header closeButton>
+                                        <Modal.Title id="example-custom-modal-styling-title">
+                                            Редактирование информации о комплектации и технических характеристиках
+                                        </Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div className="table1">
+                                            <h5>Технические характеристики</h5>
+                                            <Table striped bordered hover className={"table12"} size="sm">
+                                                <thead>
+                                                <tr>
+                                                    <th>Зав. № машины</th>
+                                                    <th>Модель машины</th>
+                                                    <th>Модель двигателя</th>
+                                                    <th>Зав. № двигателя</th>
+                                                    <th>Модель трансмиссии</th>
+                                                    <th>Зав. № трансмиссии</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <Form.Control size="sm" type="text" value={serNumM}
+                                                                      onChange={e => setSerNumM(e.target.value)}/>
+                                                    </td>
+                                                    <td>
+                                                        <Form.Select aria-label="" size="sm"
+                                                                     onChange={(e) => {
+                                                                         if (modM) {
+                                                                             _setModM_i(modM[e.target.selectedIndex]);
+                                                                         }
+                                                                     }}>
+                                                            {modM && modM.map((i) => {
+                                                                return <option id={modM_i} selected key={i.id}>
+                                                                    {i.title}
                                                                 </option>;
-                                                        })});
-                                                    </Form.Select>
-                                                </td>
-                                                <td>
-                                                    <Form.Select aria-label='' size="sm"
-                                                                 onChange={(e) => {
-                                                                     if (usr) {
-                                                                         setUsr_i(usr[e.target.selectedIndex]);
-                                                                     }
-                                                                 }}>
-                                                        {usr && usr.map((i) => {
-                                                            return < option id={nUsr_i} selected key={i.id}>
-                                                                {i.user_name}
-                                                            </option>;
-                                                        })});
-                                                    </Form.Select>
-                                                </td>
-                                            </tr></tbody>
-                                        </Table>
-                                    </div>
-                                    <div id='button'>
-                                        <Button variant="outline-secondary" onClick={handleUpdate}>
-                                            Сохранить
-                                        </Button>
-                                        <Button variant="outline-secondary" onClick={handleClose}>
-                                            Отменить
-                                        </Button>
-                                    </div>
-                                </Modal.Body>
-                            </Modal>
-                            <Button variant="outline-secondary" onClick={Delete}>Удалить машину</Button>
-                        </div>
+                                                            })});
+                                                        </Form.Select>
+                                                    </td>
+                                                    <td>
+                                                        <Form.Select aria-label="" size="sm"
+                                                                     onChange={(e) => {
+                                                                         if (modE) {
+                                                                             _setModE_i(modE[e.target.selectedIndex]);
+                                                                         }
+                                                                     }}>
+                                                            {modE && modE.map((i) => {
+                                                                return <option id={modE_i} selected key={i.id}>
+                                                                    {i.title}
+                                                                </option>;
+                                                            })});
+                                                        </Form.Select>
+                                                    </td>
+                                                    <td>
+                                                        <Form.Control size="sm" type="text" value={serNumE}
+                                                                      onChange={e => setSerNumE(e.target.value)}/>
+                                                    </td>
+                                                    <td>
+                                                        <Form.Select aria-label="" size="sm"
+                                                                     onChange={(e) => {
+                                                                         if (modT) {
+                                                                             _setModT_i(modT[e.target.selectedIndex]);
+                                                                         }
+                                                                     }}>
+                                                            {modT && modT.map((i) => {
+                                                                return <option id={modT_i} selected
+                                                                               key={i.id}>{i.title}</option>;
+                                                            })});
+                                                        </Form.Select>
+                                                    </td>
+                                                    <td>
+                                                        <Form.Control size="sm" type="text" value={serNumT}
+                                                                      onChange={e => setSerNumT(e.target.value)}/>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </Table>
+                                            <Table striped bordered hover className={"table12"} size="sm">
+                                                <thead>
+                                                <tr>
+                                                    <th>Модель ведущего моста</th>
+                                                    <th>Зав. № ведущего моста</th>
+                                                    <th>Модель управляемого моста</th>
+                                                    <th>Зав. № управляемого моста</th>
+                                                    <th>Договор поставки №, дата</th>
+                                                    <th>Дата отгрузки с завода</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <Form.Select aria-label="" size="sm"
+                                                                     onChange={(e) => {
+                                                                         if (modD) {
+                                                                             _setModD_i(modD[e.target.selectedIndex]);
+                                                                         }
+                                                                     }}>
+                                                            {modD && modD.map((i) => {
+                                                                return <option id={modD_i} selected key={i.id}>
+                                                                    {i.title}
+                                                                </option>;
+                                                            })});
+                                                        </Form.Select>
+                                                    </td>
+                                                    <td>
+                                                        <Form.Control size="sm" type="text" value={serNumD}
+                                                                      onChange={e => setSerNumD(e.target.value)}/>
+                                                    </td>
+                                                    <td>
+                                                        <Form.Select aria-label="" size="sm"
+                                                                     onChange={(e) => {
+                                                                         if (modS) {
+                                                                             _setModS_i(modS[e.target.selectedIndex]);
+                                                                         }
+                                                                     }}>
+                                                            {modS && modS.map((i) => {
+                                                                return <option id={modS_i} selected
+                                                                               key={i.id}>{i.title}</option>;
+                                                            })});
+                                                        </Form.Select>
+                                                    </td>
+                                                    <td>
+                                                        <Form.Control size="sm" type="text" value={serNumS}
+                                                                      onChange={e => setSerNumS(e.target.value)}/>
+                                                    </td>
+                                                    <td>
+                                                        <Form.Control size="sm" type="text" value={contract}
+                                                                      onChange={e => setContract(e.target.value)}/>
+                                                    </td>
+                                                    <td>
+                                                        <Form.Control size="sm" type="date" value={dateShF}
+                                                                      onChange={e => setDateShF(e.target.value)}/>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </Table>
+                                            <h5>Комплектация и иные сведения</h5>
+                                            <Table striped bordered hover className={"table12"} size="sm">
+                                                <thead>
+                                                <tr>
+                                                    <th>Грузополучатель (конечный потребитель)</th>
+                                                    <th>Адрес поставки (эксплуатации)</th>
+                                                    <th>Комплектация (доп. опции)</th>
+                                                    <th>Сервисная компания</th>
+                                                    <th>Клиент</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <Form.Control size="sm" type="text" value={consignee}
+                                                                      onChange={e => setConsignee(e.target.value)}/>
+                                                    </td>
+                                                    <td>
+                                                        <Form.Control size="sm" type="text" value={address}
+                                                                      onChange={e => setAddress(e.target.value)}/>
+                                                    </td>
+                                                    <td>
+                                                        <Form.Control size="sm" type="text" value={equipment}
+                                                                      onChange={e => setEquipment(e.target.value)}/>
+                                                    </td>
+                                                    <td>
+                                                        <Form.Select aria-label="" size="sm"
+                                                                     onChange={(e) => {
+                                                                         if (serCom) {
+                                                                             _setSerCom_i(serCom[e.target.selectedIndex]);
+                                                                         }
+                                                                     }}>
+                                                            {serCom && serCom.map((i) => {
+                                                                return <option id={serCom_i} selected key={i.id}>
+                                                                    {i.title}
+                                                                </option>;
+                                                            })});
+                                                        </Form.Select>
+                                                    </td>
+                                                    <td>
+                                                        <Form.Select aria-label='' size="sm"
+                                                                     onChange={(e) => {
+                                                                         if (usr) {
+                                                                             setUsr_i(usr[e.target.selectedIndex]);
+                                                                         }
+                                                                     }}>
+                                                            {usr && usr.map((i) => {
+                                                                return < option id={nUsr_i} selected key={i.id}>
+                                                                    {i.user_name}
+                                                                </option>;
+                                                            })});
+                                                        </Form.Select>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </Table>
+                                        </div>
+                                        <div id='button'>
+                                            <Button variant="outline-secondary" onClick={handleUpdate}>
+                                                Сохранить
+                                            </Button>
+                                            <Button variant="outline-secondary" onClick={handleClose}>
+                                                Отменить
+                                            </Button>
+                                        </div>
+                                    </Modal.Body>
+                                </Modal>
+                                <Button variant="outline-secondary" onClick={Delete}>Удалить машину</Button>
+                            </div>
+                        }
                         <div className="table1">
                             <h5>Технические характеристики</h5>
                             <Table striped bordered hover className={"table12"} size="sm">
@@ -637,10 +647,12 @@ function MachineItem() {
                         <h5 id='accor-body'>Рекламации</h5>
                     </Accordion.Header>
                     <Accordion.Body>
-                        <div id='but-muchitem1'>
+                        <div id='but-muchitem2'>
+                        {catUser !== 'CL' &&
                             <Button variant="outline-secondary" onClick={() => setShowC(true)}>
                                 Добавить рекламацию
                             </Button>
+                            }
                             <Modal
                                 show={showC}
                                 onHide={() => setShowC(false)}
@@ -758,7 +770,9 @@ function MachineItem() {
                                     <th>Дата восстановления</th>
                                     <th>Время простоя техники, дней</th>
                                     <th>Организация, проводившая техническое обслуживание: сотрудник</th>
-                                    <th></th>
+                                    {catUser !== 'CL' &&
+                                        <th></th>
+                                    }
                                 </tr>
                                 </thead>
                                 <tbody>
