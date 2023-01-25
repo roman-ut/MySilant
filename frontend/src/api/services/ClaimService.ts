@@ -74,9 +74,9 @@ id: number,
      * @throws ApiError
      */
     public static claimUpdate(
-id: number,
-data: Claim,
-): CancelablePromise<Claim> {
+        id: number | undefined,
+        data: {},
+    ): CancelablePromise<Claim> {
         return __request(OpenAPI, {
             method: 'PUT',
             url: '/claim/{id}/',
@@ -113,8 +113,8 @@ data: Claim,
      * @throws ApiError
      */
     public static claimDelete(
-id: number,
-): CancelablePromise<void> {
+        id: number | undefined,
+    ): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/claim/{id}/',

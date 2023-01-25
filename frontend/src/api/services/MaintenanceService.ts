@@ -110,8 +110,8 @@ data: Maintenance,
      * @throws ApiError
      */
     public static maintenanceDelete(
-id: number,
-): CancelablePromise<void> {
+        id: number | undefined,
+    ): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/maintenance/{id}/',

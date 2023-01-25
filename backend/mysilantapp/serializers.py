@@ -32,7 +32,7 @@ class MaintenanceSerializer(ModelSerializer):
     class Meta:
         model = Maintenance
         fields = ('id', 'type_title', 'date', 'operTime', 'workOrder', 'dateWorkOrder',
-                  'service_company', 'machine_title')
+                  'service_company', 'machine_title', 'serviceCompany', 'machine', 'type')
 
 
 class ClaimSerializer(ModelSerializer):
@@ -40,7 +40,8 @@ class ClaimSerializer(ModelSerializer):
     class Meta:
         model = Claim
         fields = ('id', 'dateRejection', 'operTime', 'typefailure_title', 'failDescription', 'recmethode_title',
-                  'spareParts', 'dateRecovery', 'downtime', 'machine_title', 'service_company')
+                  'spareParts', 'dateRecovery', 'downtime', 'machine_title', 'service_company', 'typeFailure',
+                  'recMethod', 'machine')
 
 class ModelMachineSerializer(ModelSerializer):
     class Meta:

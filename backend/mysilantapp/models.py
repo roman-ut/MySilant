@@ -75,7 +75,7 @@ class Machine(models.Model):
     consignee = models.CharField(max_length=30)
     addressOperation = models.CharField(max_length=128)
     equipment = models.CharField(max_length=400)
-    userClient = models.ForeignKey(User, on_delete=models.PROTECT, related_name='client')
+    userClient = models.ForeignKey(UserSilant, on_delete=models.PROTECT, related_name='client')
     userService = models.ForeignKey(ServiceCompany, on_delete=models.PROTECT, related_name='service')
 
     def __str__(self):
@@ -100,7 +100,7 @@ class Machine(models.Model):
         return f'{self.userService.title}: {self.userService.user.silUser.username}'
 
     def user(self) -> str:
-        return f'{self.userClient.username}'
+        return f'{self.userClient.silUser.username}'
 
 
 class TypeMaintenance(ReferenceBook):

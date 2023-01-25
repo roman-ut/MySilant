@@ -14,4 +14,7 @@ export type Claim = {
     downtime?: number;
     readonly machine_title?: string;
     readonly service_company?: string;
+    typeFailure: number;
+    recMethod: number;
+    machine: number;
 };

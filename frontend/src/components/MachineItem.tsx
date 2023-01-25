@@ -1,4 +1,4 @@
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import Stack from 'react-bootstrap/Stack';
 import Container from "react-bootstrap/Container";
 import '../styles/MachineItem.css';
@@ -7,49 +7,34 @@ import Table from "react-bootstrap/Table";
 import React, {useEffect, useState} from "react";
 import Button from 'react-bootstrap/Button';
 import {
-    ApiError, Claim, ClaimService, MachineService, Maintenance, MaintenanceService, ModelDriveAxle,
-    ModeldriveaxleService, ModelEngine, ModelengineService, ModelMachine, ModelmachineService,
-    ModelSteeringAxle, ModelsteeringaxleService, ModelTransmission, ModeltransmissionService,
-    ServiceCompany, ServicecompanyService, UserSilant, UsgroupService
+    ApiError,
+    Claim,
+    ClaimService,
+    MachineService,
+    Maintenance,
+    MaintenanceService,
+    ModelDriveAxle,
+    ModeldriveaxleService,
+    ModelEngine,
+    ModelengineService,
+    ModelMachine,
+    ModelmachineService,
+    ModelSteeringAxle,
+    ModelsteeringaxleService,
+    ModelTransmission,
+    ModeltransmissionService, RecoveryMethod, RecoverymethodService,
+    ServiceCompany,
+    ServicecompanyService,
+    TypeFailure, TypefailureService,
+    TypeMaintenance,
+    TypemaintenanceService,
+    UserSilant,
+    UsgroupService
 } from "../api";
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-
-
-function MaintenanceItem(props:Maintenance) {
-
-    return (
-        <tr className={"maintenance"}>
-            <td>{props.id}</td>
-            <td>{props.type_title}</td>
-            <td>{props.date}</td>
-            <td>{props.operTime}</td>
-            <td>{props.workOrder}</td>
-            <td>{props.dateWorkOrder}</td>
-            <td>{props.service_company}</td>
-        </tr>
-    );
-
-}
-
-function ClaimItem(props:Claim) {
-
-    return (
-        <tr className={"claim"}>
-            <td>{props.id}</td>
-            <td>{props.dateRejection}</td>
-            <td>{props.operTime}</td>
-            <td>{props.typefailure_title}</td>
-            <td>{props.failDescription}</td>
-            <td>{props.recmethode_title}</td>
-            <td>{props.spareParts}</td>
-            <td>{props.dateRecovery}</td>
-            <td>{props.downtime}</td>
-            <td>{props.service_company}</td>
-        </tr>
-    );
-
-}
+import MaintenanceItem from "./MaintenanceItem";
+import ClaimItem from "./ClaimItem";
 
 function MachineItem() {
     const location = useLocation();
@@ -63,18 +48,14 @@ function MachineItem() {
         setClaims(await ClaimService.claimList(serNumM));
     }
     useEffect(() => {
-        loadMaintenanceFilter(MachineItem.serNumM);
-        loadClaimFilter(MachineItem.serNumM);
-        loadModM();
-        loadModE();
-        loadModT();
-        loadModD();
-        loadModS();
-        loadSerCom();
-        loadUsr();
+        loadMaintenanceFilter(MachineItem.serNumM); loadClaimFilter(MachineItem.serNumM); loadModM();
+        loadModE(); loadModT(); loadModD(); loadModS(); loadSerCom(); loadUsr(); loadTypMains();
+        loadTypFails(); loadRecMets();
     }, [MachineItem.serNumM]);
 
     const [show, setShow] = useState(false);
+    const [showM, setShowM] = useState(false);
+    const [showC, setShowC] = useState(false);
     //Загрузка справочников
     const [modM, setModM] = useState<ModelMachine[]>();
     const [modE, setModE] = useState<ModelEngine[]>();
@@ -83,7 +64,20 @@ function MachineItem() {
     const [modS, setModS] = useState<ModelSteeringAxle[]>();
     const [serCom, setSerCom] = useState<ServiceCompany[]>();
     const [usr, setUsr] = useState<UserSilant[]>();
+    const [typMains, setTypMains] = useState<TypeMaintenance[]>();
+    const [recMets, setRecMets] = useState<RecoveryMethod[]>();
+    const [typFails, setTypFails] = useState<TypeFailure[]>();
 
+
+    const loadTypFails  = async () => {
+        setTypFails(await TypefailureService.typefailureList());
+    };
+    const loadRecMets  = async () => {
+        setRecMets(await RecoverymethodService.recoverymethodList());
+    };
+    const loadTypMains  = async () => {
+        setTypMains(await TypemaintenanceService.typemaintenanceList());
+    };
     const loadModM  = async () => {
         setModM(await ModelmachineService.modelmachineList());
     };
@@ -131,28 +125,29 @@ function MachineItem() {
     const [_modS_i, _setModS_i] = useState<any>();
     const [_serCom_i, _setSerCom_i] = useState<any>();
     const [usr_i, setUsr_i] = useState<any>();
+    const [typMainID, setTypMainID] = useState<any>();
+    const [dateMan, setDateMan] = useState('');
+    const [opTime, setOpTime] = useState<any>();
+    const [worOr, setWorOr] = useState('');
+    const [dateWor, setDateWor] = useState('');
+    const [serComId, setSerComId] = useState<any>();
+    const [dateRej, setDateRej] = useState('');
+    const [opTimeC, setOpTimeC] = useState<any>();
+    const [fiDesc, setFiDesc] = useState('');
+    const [recMetID, setRecMetID] = useState<any>();
+    const [spPart, setSpPart] = useState('');
+    const [dateRec, setDateRec] = useState('');
+    const [typFailID, setTypFailID] = useState<any>();
+
 
     function Update(idUsr: number, idmodM: number, idmodE: number, idmodT: number, idmodD: number,
                     idmodS: number, idserCom: number) {
         MachineService.machineUpdate(
             MachineItem.id,
-            {
-            NumSupContract: contract,
-                addressOperation: address,
-                consignee: consignee,
-                dateShipmentFactory: dateShF,
-                equipment: equipment,
-                modelDA: idmodD,
-                modelE: idmodE,
-                modelM: idmodM,
-                modelSA: idmodS,
-                modelT: idmodT,
-                serNumDA: serNumD,
-                serNumE: serNumE,
-                serNumM: serNumM,
-                serNumSA: serNumS,
-                serNumT: serNumT,
-                userClient: idUsr,
+            { NumSupContract: contract, addressOperation: address, consignee: consignee,
+                dateShipmentFactory: dateShF, equipment: equipment, modelDA: idmodD, modelE: idmodE,
+                modelM: idmodM, modelSA: idmodS, modelT: idmodT, serNumDA: serNumD, serNumE: serNumE,
+                serNumM: serNumM, serNumSA: serNumS, serNumT: serNumT, userClient: idUsr,
                 userService: idserCom,
         }).then(() => {
                 setShow(false);
@@ -163,70 +158,81 @@ function MachineItem() {
     }
 
     function handleUpdate() {
-        let idUsr: number = 0;
-        let idmodM: number = 0;
-        let idmodE: number = 0;
-        let idmodT: number = 0;
-        let idmodD: number = 0;
-        let idmodS: number = 0;
-        let idserCom: number = 0;
-        console.log(usr_i)
-        if (usr_i) {
-            setNUsr_i(usr_i.user_name);
-            idUsr = usr_i.id;
-        }
-        else {
-            idUsr = MachineItem.userClient;
-        }
-        console.log(_modM_i)
+        let idUsr: number = 0; let idmodM: number = 0; let idmodE: number = 0; let idmodT: number = 0;
+        let idmodD: number = 0; let idmodS: number = 0; let idserCom: number = 0;
 
-        if (_modM_i) {
-            setModM_i(_modM_i.title);
-            idmodM = _modM_i.id;
-        }
-        else {
-            idmodM = MachineItem.modelM;
-        }
-        if (_modE_i) {
-            setModE_i(_modE_i.title);
-            idmodE = _modE_i.id;
-        }
-        else {
-            idmodE = MachineItem.modelE;
-        }
-        if (_modT_i) {
-            setModT_i(_modT_i.title);
-            idmodT = _modT_i.id;
-        }
-        else {
-            idmodT = MachineItem.modelT;
-        }
-        if (_modD_i) {
-            setModD_i(_modD_i.title);
-            idmodD = _modD_i.id;
-        }
-        else {
-            idmodD = MachineItem.modelDA;
-        }
-        if (_modS_i) {
-            setModS_i(_modS_i.title);
-            idmodS = _modS_i.id;
-        }
-        else {
-            idmodS = MachineItem.modelSA;
-        }
-        if (_serCom_i) {
-            setSerCom_i(_serCom_i.title);
-            idserCom = _serCom_i.id;
-        }
-        else {
-            idserCom = MachineItem.userService;
-        }
+        if (usr_i) { setNUsr_i(usr_i.user_name); idUsr = usr_i.id }
+        else { idUsr = MachineItem.userClient; }
+
+        if (_modM_i) {setModM_i(_modM_i.title); idmodM = _modM_i.id;}
+        else {idmodM = MachineItem.modelM;}
+
+        if (_modE_i) {setModE_i(_modE_i.title); idmodE = _modE_i.id;}
+        else {idmodE = MachineItem.modelE;}
+
+        if (_modT_i) {setModT_i(_modT_i.title); idmodT = _modT_i.id;}
+        else {idmodT = MachineItem.modelT;}
+
+        if (_modD_i) {setModD_i(_modD_i.title); idmodD = _modD_i.id;}
+        else {idmodD = MachineItem.modelDA;}
+
+        if (_modS_i) {setModS_i(_modS_i.title); idmodS = _modS_i.id;}
+        else {idmodS = MachineItem.modelSA;}
+
+        if (_serCom_i) {setSerCom_i(_serCom_i.title); idserCom = _serCom_i.id;}
+        else {idserCom = MachineItem.userService;}
 
         Update(idUsr, idmodM, idmodE, idmodT, idmodD, idmodS, idserCom);
     }
-    function handleClose() {
-        setShow(false);
+    function handleClose() {setShowM(false);}
+    const navigate = useNavigate();
+    function Delete() {
+        MachineService.machineDelete(MachineItem.id).then(() => {
+            navigate('/');
+            }
+        ).catch((err:ApiError) => {
+            alert('Нельзя удалить машину, в базе имеются сведения об обслуживании или рекламации для' +
+                ' данной машины. Удалите сначала сведения об обслуживании и рекламации.')
+            console.log(JSON.stringify(err));
+        })
+    }
+
+    function saveCla() {
+        ClaimService.claimCreate(
+            {
+                dateRecovery: dateRec,
+                dateRejection: dateRej,
+                failDescription: fiDesc,
+                machine: MachineItem.id,
+                operTime: opTimeC,
+                recMethod: recMetID,
+                spareParts: spPart,
+                typeFailure: typFailID
+            }
+        ).then(() => {
+            setShowM(false);
+            window.location.reload();
+        }).catch((err:ApiError) => {
+            console.log(JSON.stringify(err));
+            alert('Все поля обязательны для заполнения. У вас есть незаполненые поля.');
+        })
+
+    }
+
+    function saveMan() {
+        MaintenanceService.maintenanceCreate(
+            {
+                date: dateMan, dateWorkOrder: dateWor, machine: MachineItem.id, operTime: opTime,
+                serviceCompany: serComId, type: typMainID, workOrder: worOr
+
+            }
+        ).then(() => {
+            setShowM(false);
+            window.location.reload();
+        }).catch((err:ApiError) => {
+            console.log(JSON.stringify(err));
+            alert('Все поля обязательны для заполнения. У вас есть незаполненые поля.');
+        })
     }
     return (
         <div >
@@ -250,7 +256,7 @@ function MachineItem() {
                     <Accordion.Body >
                         <div id='but-muchitem1'>
                             <Button variant="outline-secondary" onClick={() => setShow(true)}>
-                                Редактировать
+                                Редактировать машину
                             </Button>
                             <Modal
                                 show={show}
@@ -454,7 +460,7 @@ function MachineItem() {
                                     </div>
                                 </Modal.Body>
                             </Modal>
-                            <Button variant="outline-secondary">Удалить</Button>
+                            <Button variant="outline-secondary" onClick={Delete}>Удалить машину</Button>
                         </div>
                         <div className="table1">
                             <h5>Технические характеристики</h5>
@@ -474,7 +480,7 @@ function MachineItem() {
                                 </thead>
                                 <tbody><tr>
                                     <td>{modM_i}</td>
-                                    <td>{MachineItem.modE_i}</td>
+                                    <td>{modE_i}</td>
                                     <td>{MachineItem.serNumE}</td>
                                     <td>{modT_i}</td>
                                     <td>{MachineItem.serNumT}</td>
@@ -516,9 +522,93 @@ function MachineItem() {
                     </Accordion.Header>
                     <Accordion.Body>
                         <div id='but-muchitem1'>
-                            <Button variant="outline-secondary">Редактировать</Button>{' '}
-                            <Button variant="outline-secondary">Добавить</Button>{' '}
-                            <Button variant="outline-secondary">Удалить</Button>{' '}
+                            <Button variant="outline-secondary" onClick={() => setShowM(true)}>
+                                Добавить ТО</Button>
+                            <Modal
+                                show={showM}
+                                onHide={() => setShowM(false)}
+                                dialogClassName="modal-90w"
+                                aria-labelledby="example-custom-modal-styling-title"
+                                fullscreen={true}
+                            >
+                                <Modal.Header closeButton>
+                                    <Modal.Title id="example-custom-modal-styling-title">
+                                        Добавить информацию о техническом обслуживании
+                                    </Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <div className="table2">
+                                        <Table striped bordered hover className={"table22"} size="sm">
+                                            <thead>
+                                            <tr>
+                                                <th>Вид технического обслуживания</th>
+                                                <th>Дата проведения технического обслуживания</th>
+                                                <th>Наработка, м/ час</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <td>
+                                                <Form.Select aria-label="" size="sm"
+                                                             onChange={(event) =>setTypMainID(event.target.value)}>
+                                                    <option defaultValue='' hidden>
+                                                        Выберите...
+                                                    </option>
+                                                    {typMains && typMains.map((i) => {
+                                                        return <option key={i.id} value={i.id}>{i.title}</option>;
+                                                    })});
+                                                </Form.Select>
+                                            </td>
+                                            <td>
+                                                <Form.Control size="sm" type="date"
+                                                              onChange={e => setDateMan(e.target.value)}/>
+                                            </td>
+                                            <td>
+                                                <Form.Control size="sm" type="number"
+                                                              onChange={e => setOpTime(e.target.value)}/>
+                                            </td>
+                                            </tbody>
+                                        </Table>
+                                        <Table striped bordered hover className={"table22"} size="sm">
+                                            <thead>
+                                            <tr>
+                                                <th>Номер заказ-наряда</th>
+                                                <th>Дата заказа-наряда</th>
+                                                <th>Организация, проводившая техническое обслуживание: сотрудник</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <td>
+                                                <Form.Control size="sm" type="text"
+                                                              onChange={e => setWorOr(e.target.value)}/>
+                                            </td>
+                                            <td>
+                                                <Form.Control size="sm" type="date"
+                                                              onChange={e => setDateWor(e.target.value)}/>
+                                            </td>
+                                            <td>
+                                                <Form.Select aria-label="" size="sm"
+                                                             onChange={(event) =>setSerComId(event.target.value)}>
+                                                    <option defaultValue='' hidden>
+                                                        Выберите...
+                                                    </option>
+                                                    {serCom && serCom.map((i) => {
+                                                        return <option key={i.id} value={i.id}>{i.title}</option>;
+                                                    })});
+                                                </Form.Select>
+                                            </td>
+                                            </tbody>
+                                        </Table>
+                                    </div>
+                                    <div id='button'>
+                                        <Button variant="outline-secondary" onClick={saveMan}>
+                                            Сохранить
+                                        </Button>
+                                        <Button variant="outline-secondary" onClick={handleClose}>
+                                            Отменить
+                                        </Button>
+                                    </div>
+                                </Modal.Body>
+                            </Modal>
                         </div>
                         <div className="table1">
                             <Table striped bordered hover className={"table12"} size="sm">
@@ -531,11 +621,12 @@ function MachineItem() {
                                     <th>Номер заказ-наряда</th>
                                     <th>Дата заказа-наряда</th>
                                     <th>Организация, проводившая техническое обслуживание: сотрудник</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {maintenances && maintenances.map(maintenance =>
-                                {return <MaintenanceItem key={maintenance.id} {...maintenance}/>;})}
+                                {return <MaintenanceItem key={maintenance.id} {...maintenance} />;})}
                                 </tbody>
                             </Table>
                         </div>
@@ -547,9 +638,111 @@ function MachineItem() {
                     </Accordion.Header>
                     <Accordion.Body>
                         <div id='but-muchitem1'>
-                            <Button variant="outline-secondary">Редактировать</Button>{' '}
-                            <Button variant="outline-secondary">Добавить</Button>{' '}
-                            <Button variant="outline-secondary">Удалить</Button>{' '}
+                            <Button variant="outline-secondary" onClick={() => setShowC(true)}>
+                                Добавить рекламацию
+                            </Button>
+                            <Modal
+                                show={showC}
+                                onHide={() => setShowC(false)}
+                                dialogClassName="modal-90w"
+                                aria-labelledby="example-custom-modal-styling-title"
+                                fullscreen={true}
+                            >
+                                <Modal.Header closeButton>
+                                    <Modal.Title id="example-custom-modal-styling-title">
+                                        Добавить рекламацию
+                                    </Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <div className="table2">
+                                        <Table striped bordered hover className={"table22"} size="sm">
+                                            <thead>
+                                            <tr>
+                                                <th>Дата отказа</th>
+                                                <th>Наработка, м/час</th>
+                                                <th>Характер (узел) отказа</th>
+                                                <th>Описание отказа</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <td>
+                                                <Form.Control size="sm" type="date"
+                                                              onChange={e => setDateRej(e.target.value)}/>
+                                            </td>
+                                            <td>
+                                                <Form.Control size="sm" type="number"
+                                                              onChange={e => setOpTimeC(e.target.value)}/>
+                                            </td>
+                                            <td>
+                                                <Form.Select aria-label="" size="sm"
+                                                             onChange={(event) =>setTypFailID(event.target.value)}>
+                                                    <option defaultValue='' hidden>
+                                                        Выберите...
+                                                    </option>
+                                                    {typFails && typFails.map((i) => {
+                                                        return <option key={i.id} value={i.id}>{i.title}</option>;
+                                                    })});
+                                                </Form.Select>
+                                            </td>
+                                            <td>
+                                                <Form.Control size="sm" type="text"
+                                                              onChange={e => setFiDesc(e.target.value)}/>
+                                            </td>
+                                            </tbody>
+                                        </Table>
+                                        <Table striped bordered hover className={"table22"} size="sm">
+                                            <thead>
+                                            <tr>
+                                                <th>Способ восстановления</th>
+                                                <th>Используемые запасные части</th>
+                                                <th>Дата восстановления</th>
+                                                <th>Организация, проводившая техническое обслуживание: сотрудник</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <td>
+                                                <Form.Select aria-label="" size="sm"
+                                                             onChange={(event) =>setRecMetID(event.target.value)}>
+                                                    <option defaultValue='' hidden>
+                                                        Выберите...
+                                                    </option>
+                                                    {recMets && recMets.map((i) => {
+                                                        return <option key={i.id} value={i.id}>{i.title}</option>;
+                                                    })});
+                                                </Form.Select>
+                                            </td>
+                                            <td>
+                                                <Form.Control size="sm" type="text"
+                                                              onChange={e => setSpPart(e.target.value)}/>
+                                            </td>
+                                            <td>
+                                                <Form.Control size="sm" type="date"
+                                                              onChange={e => setDateRec(e.target.value)}/>
+                                            </td>
+                                            <td>
+                                                <Form.Select aria-label="" size="sm"
+                                                             onChange={(event) =>setSerComId(event.target.value)}>
+                                                    <option defaultValue='' hidden>
+                                                        Выберите...
+                                                    </option>
+                                                    {serCom && serCom.map((i) => {
+                                                        return <option key={i.id} value={i.id}>{i.title}</option>;
+                                                    })});
+                                                </Form.Select>
+                                            </td>
+                                            </tbody>
+                                        </Table>
+                                    </div>
+                                    <div id='button'>
+                                        <Button variant="outline-secondary" onClick={saveCla}>
+                                            Сохранить
+                                        </Button>
+                                        <Button variant="outline-secondary" onClick={() => setShowC(false)}>
+                                            Отменить
+                                        </Button>
+                                    </div>
+                                </Modal.Body>
+                            </Modal>
                         </div>
                         <div className="table1">
                             <Table striped bordered hover className={"table12"} size="sm">
@@ -565,6 +758,7 @@ function MachineItem() {
                                     <th>Дата восстановления</th>
                                     <th>Время простоя техники, дней</th>
                                     <th>Организация, проводившая техническое обслуживание: сотрудник</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>

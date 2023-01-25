@@ -37,14 +37,14 @@ class MachineAPIView(ListCreateAPIView):
         context['filter'] = MachineFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
-    def get_queryset(self):
-        user = self.request.user
-        if not UserSilant.objects.get(silUser=user).categoryType == "MG":
-            return Machine.objects.filter(Q(userClient=user) | Q
-            (userService=ServiceCompany.objects.get(user=UserSilant.objects.get(silUser=user)).id))
-
-        else:
-            return Machine.objects.all()
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     if not UserSilant.objects.get(silUser=user).categoryType == "MG":
+    #         return Machine.objects.filter(Q(userClient=user) | Q
+    #         (userService=ServiceCompany.objects.get(user=UserSilant.objects.get(silUser=user)).id))
+    #
+    #     else:
+    #         return Machine.objects.all()
 
 
 class MachineAPIViewDetail(RetrieveUpdateDestroyAPIView):

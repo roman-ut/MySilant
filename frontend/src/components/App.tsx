@@ -20,7 +20,6 @@ import MachineListPrivate from "./MachineListPrivate";
 import MaintenanceList from "./MaintenanceList";
 import ClaimList from "./ClaimList";
 import MachineItem from "./MachineItem";
-import MachineEdit from "./MachineEdit";
 
 
 function App() {
@@ -48,7 +47,6 @@ function App() {
                       <Routes>
                           <Route path="/" element={<MachineListPrivate isLoggedIn={isLoggedIn}/>}/>
                           <Route path="/machineitem" element={<MachineItem />}/>
-                          <Route path="/machinedit" element={<MachineEdit />}/>
                           <Route path="/maintenance" element={<MaintenanceList isLoggedIn={isLoggedIn}/>}/>
                           <Route path="/claim" element={<ClaimList isLoggedIn={isLoggedIn}/>}/>
                           <Route path="/modelmachine" element={<ModelMachineList isLoggedIn={isLoggedIn}

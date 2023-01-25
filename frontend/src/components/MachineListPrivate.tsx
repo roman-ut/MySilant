@@ -1,21 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {
-    ApiError,
-    Machine,
-    MachineService,
-    ModelDriveAxle,
-    ModeldriveaxleService,
-    ModelEngine,
-    ModelengineService,
-    ModelMachine,
-    ModelmachineService,
-    ModelSteeringAxle,
-    ModelsteeringaxleService,
-    ModelTransmission,
-    ModeltransmissionService,
-    ServiceCompany,
-    ServicecompanyService,
-    UserSilant, UsgroupService
+    ApiError, Machine, MachineService, ModelDriveAxle, ModeldriveaxleService, ModelEngine, ModelengineService,
+    ModelMachine, ModelmachineService, ModelSteeringAxle, ModelsteeringaxleService, ModelTransmission,
+    ModeltransmissionService, ServiceCompany, ServicecompanyService, UserSilant, UsgroupService
 } from "../api";
 import Table from "react-bootstrap/Table";
 import "../styles/MachineListPrivate.css";
@@ -61,19 +48,11 @@ export default function MachineListPrivate({isLoggedIn}: any) {
     // if (isLoggedIn === 'true') {}
     const loadMachine  = async () => {
         setMachines(await MachineService.machineList())
-
     };
     //Первоначальная загрузка информации
     // if (isLoggedIn === 'true')
     useEffect(() => {
-        loadMachine().catch((err:ApiError) => {
-            console.log(JSON.stringify(err))
-        });
-        loadModM();
-        loadModE();
-        loadModT();
-        loadModD();
-        loadModS();
+        loadMachine(); loadModM(); loadModE(); loadModT(); loadModD(); loadModS();  loadSerCom(); loadUsr();
     }, [])
 
     //Загрузка справочников
@@ -84,23 +63,18 @@ export default function MachineListPrivate({isLoggedIn}: any) {
     const [modS, setModS] = useState<ModelSteeringAxle[]>();
     const loadModM  = async () => {
         setModM(await ModelmachineService.modelmachineList())
-
     };
     const loadModE  = async () => {
         setModE(await ModelengineService.modelengineList())
-
     };
     const loadModT  = async () => {
         setModT(await ModeltransmissionService.modeltransmissionList())
-
     };
     const loadModD  = async () => {
         setModD(await ModeldriveaxleService.modeldriveaxleList())
-
     };
     const loadModS  = async () => {
         setModS(await ModelsteeringaxleService.modelsteeringaxleList())
-
     };
 
     //Загрузка по фильтру
@@ -138,55 +112,30 @@ export default function MachineListPrivate({isLoggedIn}: any) {
 
     const loadSerCom  = async () => {
         setSerCom(await ServicecompanyService.servicecompanyList());
-
     };
     const loadUsr  = async () => {
         setUsr(await UsgroupService.usgroupList());
-
     };
-    useEffect(() => {
-        loadSerCom();
-        loadUsr();
-    }, []);
 
     function save() {
         MachineService.machineCreate(
             {
-                NumSupContract: contract,
-                addressOperation: address,
-                consignee: consignee,
-                dateShipmentFactory: dateShF,
-                equipment: equipment,
-                modelDA: imodD,
-                modelE: imodE,
-                modelM: imodM,
-                modelSA: imodS,
-                modelT: imodT,
-                serNumDA: serNumD,
-                serNumE: serNumE,
-                serNumM: serNumM,
-                serNumSA: serNumS,
-                serNumT: serNumT,
-                userClient: iUsr,
-                userService: iSerCom,
+                NumSupContract: contract, addressOperation: address, consignee: consignee,
+                dateShipmentFactory: dateShF, equipment: equipment,  modelDA: imodD, modelE: imodE, modelM: imodM,
+                modelSA: imodS, modelT: imodT, serNumDA: serNumD, serNumE: serNumE, serNumM: serNumM,
+                serNumSA: serNumS, serNumT: serNumT, userClient: iUsr, userService: iSerCom,
             }
         ).then(() => {
             setShow(false);
+            window.location.reload();
+        }).catch((err:ApiError) => {
+            console.log(JSON.stringify(err));
+            alert('Все поля обязательны для заполнения. У вас есть незаполненые поля.');
         })
     }
 
     function handleSave () {
         save()
-        console.log(modM);
-        console.log(modE);
-        console.log(modT);
-        console.log(modD);
-        console.log(modS);
-        console.log(imodM);
-        console.log(imodE.id);
-        console.log(imodT);
-        console.log(imodD);
-        console.log(imodS);
     }
 
     return (
@@ -207,8 +156,8 @@ export default function MachineListPrivate({isLoggedIn}: any) {
                     fullscreen={true}
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title id="example-custom-modal-styling-title">
-                            Редактирование информации о комплектации и технических характеристиках
+                        <Modal.Title id="example-custom-modal-styling">
+                            Добавление информации о новой машины
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -227,36 +176,28 @@ export default function MachineListPrivate({isLoggedIn}: any) {
                                 </thead>
                                 <tbody><tr>
                                     <td>
-                                        <Form.Control size="sm" type="text" value={serNumM}
+                                        <Form.Control size="sm" type="text"
                                                       onChange={e => setSerNumM(e.target.value)}/>
                                     </td>
                                     <td>
                                         <Form.Select aria-label="" size="sm"
-                                                     onChange={(e) => {
-                                                         if (modM) {
-                                                             setIModM(modM[e.target.selectedIndex].id);
-                                                         }
-                                                     }}>
-                                            <option value="" disabled>
+                                                     onChange={(event) =>setIModM(event.target.value)}>
+                                            <option defaultValue='' hidden>
                                                 Выберите...
                                             </option>
                                             {modM && modM.map((i) => {
-                                                return <option key={i.id}>{i.title}</option>;
+                                                return <option key={i.id} value={i.id}>{i.title}</option>;
                                             })});
                                         </Form.Select>
                                     </td>
                                     <td>
                                         <Form.Select aria-label="" size="sm"
-                                                     onChange={(e) => {
-                                                         if (modE) {
-                                                             setIModE(modE[e.target.selectedIndex]);
-                                                         }
-                                                     }}>
-                                            <option value="" disabled>
+                                                     onChange={(event) =>setIModE(event.target.value)}>
+                                            <option defaultValue='' hidden>
                                                 Выберите...
                                             </option>
                                             {modE && modE.map((i) => {
-                                                return <option key={i.id}>{i.title}</option>;
+                                                return <option key={i.id} value={i.id}>{i.title}</option>;
                                             })});
                                         </Form.Select>
                                     </td>
@@ -266,21 +207,17 @@ export default function MachineListPrivate({isLoggedIn}: any) {
                                     </td>
                                     <td>
                                         <Form.Select aria-label="" size="sm"
-                                                     onChange={(e) => {
-                                                         if (modT) {
-                                                             setIModT(modT[e.target.selectedIndex]);
-                                                         }
-                                                     }}>
-                                            <option value="" disabled>
+                                                     onChange={(event) =>setIModT(event.target.value)}>
+                                            <option defaultValue='' hidden>
                                                 Выберите...
                                             </option>
                                             {modT && modT.map((i) => {
-                                                return <option key={i.id}>{i.title}</option>;
+                                                return <option key={i.id} value={i.id}>{i.title}</option>;
                                             })});
                                         </Form.Select>
                                     </td>
                                     <td>
-                                        <Form.Control size="sm" type="text" value={serNumT}
+                                        <Form.Control size="sm" type="text"
                                                       onChange={e => setSerNumT(e.target.value)}/>
                                     </td>
                                 </tr></tbody>
@@ -299,16 +236,12 @@ export default function MachineListPrivate({isLoggedIn}: any) {
                                 <tbody><tr>
                                     <td>
                                         <Form.Select aria-label="" size="sm"
-                                                     onChange={(e) => {
-                                                         if (modD) {
-                                                             setIModD(modD[e.target.selectedIndex].id);
-                                                         }
-                                                     }}>
-                                            <option value="" disabled>
+                                                     onChange={(event) =>setIModD(event.target.value)}>
+                                            <option defaultValue='' hidden>
                                                 Выберите...
                                             </option>
                                             {modD && modD.map((i) => {
-                                                return <option key={i.id}>{i.title}</option>;
+                                                return <option key={i.id} value={i.id}>{i.title}</option>;
                                             })});
                                         </Form.Select>
                                     </td>
@@ -318,16 +251,12 @@ export default function MachineListPrivate({isLoggedIn}: any) {
                                     </td>
                                     <td>
                                         <Form.Select aria-label="" size="sm"
-                                                     onChange={(e) => {
-                                                         if (modS) {
-                                                             setIModS(modS[e.target.selectedIndex].id);
-                                                         }
-                                                     }}>
-                                            <option value="" disabled>
+                                                     onChange={(event) =>setIModS(event.target.value)}>
+                                            <option defaultValue='' hidden>
                                                 Выберите...
                                             </option>
                                             {modS && modS.map((i) => {
-                                                return <option key={i.id}>{i.title}</option>;
+                                                return <option key={i.id} value={i.id}>{i.title}</option>;
                                             })});
                                         </Form.Select>
                                     </td>
@@ -370,36 +299,24 @@ export default function MachineListPrivate({isLoggedIn}: any) {
                                                       onChange={e => setEquipment(e.target.value)}/>
                                     </td>
                                     <td>
-                                        <Form.Select aria-label="" size="sm" defaultValue=""
-                                                     onChange={(e) => {
-                                                         if (serCom) {
-                                                             setISerCom(serCom[e.target.selectedIndex].id);
-                                                         }
-                                                     }}>
-                                            <option value="" disabled>
+                                        <Form.Select aria-label="" size="sm"
+                                                     onChange={(event) =>setISerCom(event.target.value)}>
+                                            <option defaultValue='' hidden>
                                                 Выберите...
                                             </option>
                                             {serCom && serCom.map((i) => {
-                                                return <option key={i.id}>
-                                                    {i.title}
-                                                </option>;
+                                                return <option key={i.id} value={i.id}>{i.title}</option>;
                                             })});
                                         </Form.Select>
                                     </td>
                                     <td>
-                                        <Form.Select aria-label='' size="sm" defaultValue=""
-                                                     onChange={(e) => {
-                                                         if (usr) {
-                                                             setIUsr(usr[e.target.selectedIndex].id);
-                                                         }
-                                                     }}>
-                                            <option value="" disabled>
+                                        <Form.Select aria-label="" size="sm"
+                                                     onChange={(event) =>setIUsr(event.target.value)}>
+                                            <option defaultValue='' hidden>
                                                 Выберите...
                                             </option>
                                             {usr && usr.map((i) => {
-                                                return <option key={i.id}>
-                                                    {i.user_name}
-                                                </option>;
+                                                return <option key={i.id} value={i.id}>{i.user_name}</option>;
                                             })});
                                         </Form.Select>
                                     </td>
@@ -442,7 +359,7 @@ export default function MachineListPrivate({isLoggedIn}: any) {
                                              onKeyDown={event => event.key === "Enter" &&
                                                  loadMachineFilter()}
                                              onChange={e => setModM_i(e.target.value)}>
-                                    <option value="" disabled>
+                                    <option defaultValue='' hidden>
                                         Выберите...
                                     </option>
                                     {modM && modM.map(i =>
@@ -460,7 +377,7 @@ export default function MachineListPrivate({isLoggedIn}: any) {
                                              onKeyDown={event => event.key === "Enter" &&
                                                  loadMachineFilter()}
                                              onChange={e => setModE_i(e.target.value)}>
-                                    <option value="" disabled>
+                                    <option defaultValue='' hidden>
                                         Выберите...
                                     </option>
                                     {modE && modE.map(i =>
@@ -473,7 +390,7 @@ export default function MachineListPrivate({isLoggedIn}: any) {
                                              onKeyDown={event => event.key === "Enter" &&
                                                  loadMachineFilter()}
                                              onChange={e => setModT_i(e.target.value)}>
-                                    <option value="" disabled>
+                                    <option defaultValue='' hidden>
                                         Выберите...
                                     </option>
                                     {modT && modT.map(i =>
@@ -486,7 +403,7 @@ export default function MachineListPrivate({isLoggedIn}: any) {
                                              onKeyDown={event => event.key === "Enter" &&
                                                  loadMachineFilter()}
                                              onChange={e => setModD_i(e.target.value)}>
-                                    <option value="" disabled>
+                                    <option defaultValue='' hidden>
                                         Выберите...
                                     </option>
                                     {modD && modD.map(i =>
@@ -499,7 +416,7 @@ export default function MachineListPrivate({isLoggedIn}: any) {
                                              onKeyDown={event => event.key === "Enter" &&
                                                  loadMachineFilter()}
                                              onChange={e => setModS_i(e.target.value)}>
-                                    <option value="" disabled>
+                                    <option defaultValue='' hidden>
                                         Выберите...
                                     </option>
                                     {modS && modS.map(i =>

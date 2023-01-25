@@ -11,4 +11,7 @@ export type Maintenance = {
     dateWorkOrder: string;
     readonly service_company?: string;
     readonly machine_title?: string;
+    serviceCompany: number;
+    machine?: number;
+    type?: number | null;
 };
