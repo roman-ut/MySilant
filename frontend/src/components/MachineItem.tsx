@@ -151,6 +151,7 @@ function MachineItem({catUser}:any) {
                 userService: idserCom,
         }).then(() => {
                 setShow(false);
+            window.location.reload();
             }
         ).catch((err:ApiError) => {
             console.log(JSON.stringify(err))

@@ -355,7 +355,7 @@ export default function MachineListPrivate({isLoggedIn, catUser }: any) {
                     <Table striped bordered hover className={"table22"} size="sm">
                         <thead>
                         <tr>
-                            <th>№ п/п</th>
+                            <th>ID</th>
                             <th>Модель машины</th>
                             <th>Зав. № машины</th>
                             <th>Модель двигателя</th>

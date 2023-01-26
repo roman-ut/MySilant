@@ -11,18 +11,19 @@ import Navbar from 'react-bootstrap/Navbar';
 
 function MachineItem(props:MachinePublic ) {
 
+
     return (<tr className={"item"}>
-            <td>{props.serNumM}</td>
-            <td>{props.modelm_title}</td>
-            <td>{props.modele_title}</td>
-            <td>{props.serNumE}</td>
-            <td>{props.modelt_title}</td>
-            <td>{props.serNumT}</td>
-            <td>{props.modelda_title}</td>
-            <td>{props.serNumDA}</td>
-            <td>{props.modelsa_title}</td>
-            <td>{props.serNumSA}</td>
-        </tr>
+                <td>{props.serNumM}</td>
+                <td>{props.modelm_title}</td>
+                <td>{props.modele_title}</td>
+                <td>{props.serNumE}</td>
+                <td>{props.modelt_title}</td>
+                <td>{props.serNumT}</td>
+                <td>{props.modelda_title}</td>
+                <td>{props.serNumDA}</td>
+                <td>{props.modelsa_title}</td>
+                <td>{props.serNumSA}</td>
+           </tr>
     );
 }
 
@@ -34,13 +35,14 @@ export default function MachineListPublic() {
     };
 
     useEffect(() => {
-        loadMachine();
+        loadMachine().then(() => {
+        });
+
     }, []);
 
     async function loadMachineFilter() {
         setMachines(await MachinepublicService.machinepublicList(sernum));
     }
-
 
     return (
         <div>
@@ -65,9 +67,29 @@ export default function MachineListPublic() {
                         <th>Заводской номер двигателя</th><th>Модель трансмиссии</th><th>Заводской номер трансмиссии</th>
                         <th>Модель ведущего моста</th><th>Заводской номер ведущего моста</th>
                         <th>Модель управляемого моста</th><th>Заводской номер управляемого мост</th></tr></thead>
+                    { JSON.stringify(machines) !== '[]' &&
                     <tbody>
-                    {machines && machines.map(machine => {return <MachineItem key={machine.id} {...machine}/>;})}
+                    {machines && machines.map(machine => {
+                        return <MachineItem key={machine.id} {...machine}/>;
+                    })}
                     </tbody>
+                }
+                    { JSON.stringify(machines) === '[]'  &&
+                        <tbody>
+                        <tr className={"item"}>
+                            <td>Данных о машине с таким заводским номером нет</td>
+                            <td>Данных о машине с таким заводским номером нет</td>
+                            <td>Данных о машине с таким заводским номером нет</td>
+                            <td>Данных о машине с таким заводским номером нет</td>
+                            <td>Данных о машине с таким заводским номером нет</td>
+                            <td>Данных о машине с таким заводским номером нет</td>
+                            <td>Данных о машине с таким заводским номером нет</td>
+                            <td>Данных о машине с таким заводским номером нет</td>
+                            <td>Данных о машине с таким заводским номером нет</td>
+                            <td>Данных о машине с таким заводским номером нет</td>
+                        </tr>
+                        </tbody>
+                    }
                 </Table>
             </div>
         </div>

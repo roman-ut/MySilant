@@ -40,11 +40,13 @@ class MachineAPIView(ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        if not UserSilant.objects.get(silUser=user).categoryType == "MG":
-            return Machine.objects.filter(userService=ServiceCompany.objects.get(user=UserSilant.objects.get(silUser=user)).id)
-
-        else:
+        if UserSilant.objects.get(silUser=user).categoryType == "MG":
             return Machine.objects.all()
+        if UserSilant.objects.get(silUser=user).categoryType == "CL":
+            return Machine.objects.filter(userClient=UserSilant.objects.get(silUser=user))
+        if UserSilant.objects.get(silUser=user).categoryType == "SK":
+            return Machine.objects.filter(userService=ServiceCompany.objects.get(user=UserSilant.objects.get
+                                                                                       (silUser=user)))
 
 
 class MachineAPIViewDetail(RetrieveUpdateDestroyAPIView):
@@ -67,14 +69,16 @@ class MaintenanceAPIView(ListCreateAPIView):
         context['filter'] = MaintenanceFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
-    # def get_queryset(self):
-    #     user = self.request.user
-    #     if not UserSilant.objects.get(silUser=user).categoryType == "MG":
-    #         return Maintenance.objects.filter(Q(serviceCompany=user) | Q
-    #         (userService=ServiceCompany.objects.get(user=UserSilant.objects.get(silUser=user)).id))
-    #
-    #     else:
-    #         return Maintenance.objects.all()
+    def get_queryset(self):
+        user = self.request.user
+        if UserSilant.objects.get(silUser=user).categoryType == "MG":
+            return Maintenance.objects.all()
+        if UserSilant.objects.get(silUser=user).categoryType == "CL":
+            return Maintenance.objects.filter(
+                machine=Machine.objects.filter(userClient=UserSilant.objects.get(silUser=user)))
+        if UserSilant.objects.get(silUser=user).categoryType == "SK":
+            return Maintenance.objects.filter(machine=Machine.objects.filter(
+                userService=ServiceCompany.objects.get(user=UserSilant.objects.get(silUser=user))))
 
 
 class MaintenanceAPIViewDetail(RetrieveUpdateDestroyAPIView):
@@ -93,6 +97,16 @@ class ClaimAPIView(ListCreateAPIView):
     search_fields = ['dateRejection', 'operTime', 'typefailure_title', 'failDescription', 'recmethode_title',
                      'spareParts', 'dateRecovery', 'downtime', 'machine_title']
     ordering = ['dateRejection']
+
+    def get_queryset(self):
+        user = self.request.user
+        if UserSilant.objects.get(silUser=user).categoryType == "MG":
+            return Claim.objects.all()
+        if UserSilant.objects.get(silUser=user).categoryType == "CL":
+            return Claim.objects.filter(machine=Machine.objects.filter(userClient=UserSilant.objects.get(silUser=user)))
+        if UserSilant.objects.get(silUser=user).categoryType == "SK":
+            return Claim.objects.filter(machine=Machine.objects.filter(
+                userService=ServiceCompany.objects.get(user=UserSilant.objects.get(silUser=user))))
 
 
 class ClaimAPIViewDetail(RetrieveUpdateDestroyAPIView):

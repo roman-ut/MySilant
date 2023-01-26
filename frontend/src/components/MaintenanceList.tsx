@@ -87,7 +87,7 @@ export default function MaintenanceList({isLoggedIn}: any) {
                         <Table striped bordered hover className={"table22"} size="sm">
                             <thead>
                             <tr>
-                                <th>№ п/п</th>
+                                <th>ID</th>
                                 <th>Модель: зав. № машины</th>
                                 <th>Вид технического обслуживания</th>
                                 <th>Дата проведения технического обслуживания</th>
