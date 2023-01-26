@@ -36,6 +36,7 @@ class MaintenanceSerializer(ModelSerializer):
                   'service_company', 'machine_title', 'serviceCompany', 'machine', 'type')
 
 
+
 class ClaimSerializer(ModelSerializer):
 
     class Meta:

@@ -15,6 +15,7 @@ class UserCroupView(ListAPIView):
     permission_classes = (AllowAny,)
     filter_backends = [filters.SearchFilter]
     search_fields = ['silUser__username']
+    authentication_classes = (TokenAuthentication,)
 
 
 class MachineAPIViewPublic(ListAPIView):
@@ -22,16 +23,17 @@ class MachineAPIViewPublic(ListAPIView):
     queryset = Machine.objects.all()
     filter_backends = [filters.SearchFilter]
     search_fields = ['serNumM']
-    permission_classes = (AllowAny,)
 
 
 class MachineAPIView(ListCreateAPIView):
     serializer_class = serializers.MachineSerializer
-    queryset = Machine.objects.all()
+    queryset = Machine.objects.all().order_by('-dateShipmentFactory')
     permission_classes = (AllowAny,)
     authentication_classes = (TokenAuthentication,)
     filterset_class = MachineFilter
+
     ordering = ['dateShipmentFactory']
+    ordering_fields = ['dateShipmentFactory']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -41,12 +43,13 @@ class MachineAPIView(ListCreateAPIView):
     def get_queryset(self):
         user = self.request.user
         if UserSilant.objects.get(silUser=user).categoryType == "MG":
-            return Machine.objects.all()
+            return Machine.objects.all().order_by('-dateShipmentFactory')
         if UserSilant.objects.get(silUser=user).categoryType == "CL":
-            return Machine.objects.filter(userClient=UserSilant.objects.get(silUser=user))
+            return Machine.objects.filter(userClient=UserSilant.objects.get(silUser=user)).\
+                order_by('-dateShipmentFactory')
         if UserSilant.objects.get(silUser=user).categoryType == "SK":
             return Machine.objects.filter(userService=ServiceCompany.objects.get(user=UserSilant.objects.get
-                                                                                       (silUser=user)))
+                                                                 (silUser=user))).order_by('-dateShipmentFactory')
 
 
 class MachineAPIViewDetail(RetrieveUpdateDestroyAPIView):
@@ -56,13 +59,16 @@ class MachineAPIViewDetail(RetrieveUpdateDestroyAPIView):
     authentication_classes = (TokenAuthentication,)
 
 
+
+
 class MaintenanceAPIView(ListCreateAPIView):
     serializer_class = serializers.MaintenanceSerializer
-    queryset = Maintenance.objects.all()
+    queryset = Maintenance.objects.all().order_by('-date')
     permission_classes = (AllowAny,)
     authentication_classes = (TokenAuthentication,)
     filterset_class = MaintenanceFilter
     ordering = ['date']
+    filter_backends = [filters.OrderingFilter]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -72,13 +78,13 @@ class MaintenanceAPIView(ListCreateAPIView):
     def get_queryset(self):
         user = self.request.user
         if UserSilant.objects.get(silUser=user).categoryType == "MG":
-            return Maintenance.objects.all()
+            return Maintenance.objects.all().order_by('-date')
         if UserSilant.objects.get(silUser=user).categoryType == "CL":
             return Maintenance.objects.filter(
-                machine=Machine.objects.filter(userClient=UserSilant.objects.get(silUser=user)))
+                machine=Machine.objects.filter(userClient=UserSilant.objects.get(silUser=user))).order_by('-date')
         if UserSilant.objects.get(silUser=user).categoryType == "SK":
             return Maintenance.objects.filter(machine=Machine.objects.filter(
-                userService=ServiceCompany.objects.get(user=UserSilant.objects.get(silUser=user))))
+                userService=ServiceCompany.objects.get(user=UserSilant.objects.get(silUser=user)))).order_by('-date')
 
 
 class MaintenanceAPIViewDetail(RetrieveUpdateDestroyAPIView):
@@ -90,7 +96,7 @@ class MaintenanceAPIViewDetail(RetrieveUpdateDestroyAPIView):
 
 class ClaimAPIView(ListCreateAPIView):
     serializer_class = ClaimSerializer
-    queryset = Claim.objects.all()
+    queryset = Claim.objects.all().order_by('-dateRejection')
     permission_classes = (AllowAny,)
     authentication_classes = (TokenAuthentication,)
     filterset_class = ClaimFilter
@@ -101,12 +107,14 @@ class ClaimAPIView(ListCreateAPIView):
     def get_queryset(self):
         user = self.request.user
         if UserSilant.objects.get(silUser=user).categoryType == "MG":
-            return Claim.objects.all()
+            return Claim.objects.all().order_by('-dateRejection')
         if UserSilant.objects.get(silUser=user).categoryType == "CL":
-            return Claim.objects.filter(machine=Machine.objects.filter(userClient=UserSilant.objects.get(silUser=user)))
+            return Claim.objects.filter(machine=Machine.objects.filter(userClient=UserSilant.objects.
+                                                                       get(silUser=user))).order_by('-dateRejection')
         if UserSilant.objects.get(silUser=user).categoryType == "SK":
             return Claim.objects.filter(machine=Machine.objects.filter(
-                userService=ServiceCompany.objects.get(user=UserSilant.objects.get(silUser=user))))
+                userService=ServiceCompany.objects.get(user=UserSilant.objects.get(silUser=user)))).\
+                order_by('-dateRejection')
 
 
 class ClaimAPIViewDetail(RetrieveUpdateDestroyAPIView):
@@ -122,7 +130,6 @@ class ReferenceBookAPIView:
 
     class Meta:
         abstract = True
-
 
 class ModelMachineAPIView(ListCreateAPIView):
     serializer_class = serializers.ModelMachineSerializer

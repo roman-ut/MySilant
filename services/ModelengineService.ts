@@ -1,51 +1,51 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { TypeFailure } from '../models/TypeFailure';
+import type { ModelEngine } from '../models/ModelEngine';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
-export class TypefailureService {
+export class ModelengineService {
 
     /**
-     * @returns TypeFailure 
+     * @returns ModelEngine 
      * @throws ApiError
      */
-    public static typefailureList(): CancelablePromise<Array<TypeFailure>> {
+    public static modelengineList(): CancelablePromise<Array<ModelEngine>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/typefailure/',
+            url: '/modelengine/',
         });
     }
 
     /**
      * @param data 
-     * @returns TypeFailure 
+     * @returns ModelEngine 
      * @throws ApiError
      */
-    public static typefailureCreate(
-data: TypeFailure,
-): CancelablePromise<TypeFailure> {
+    public static modelengineCreate(
+data: ModelEngine,
+): CancelablePromise<ModelEngine> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/typefailure/',
+            url: '/modelengine/',
             body: data,
         });
     }
 
     /**
-     * @param id A unique integer value identifying this type failure.
-     * @returns TypeFailure 
+     * @param id A unique integer value identifying this model engine.
+     * @returns ModelEngine 
      * @throws ApiError
      */
-    public static typefailureRead(
+    public static modelengineRead(
 id: number,
-): CancelablePromise<TypeFailure> {
+): CancelablePromise<ModelEngine> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/typefailure/{id}/',
+            url: '/modelengine/{id}/',
             path: {
                 'id': id,
             },
@@ -53,18 +53,18 @@ id: number,
     }
 
     /**
-     * @param id A unique integer value identifying this type failure.
+     * @param id A unique integer value identifying this model engine.
      * @param data 
-     * @returns TypeFailure 
+     * @returns ModelEngine 
      * @throws ApiError
      */
-    public static typefailureUpdate(
+    public static modelengineUpdate(
         id: number | undefined,
-        data: TypeFailure,
-    ): CancelablePromise<TypeFailure> {
+        data: ModelEngine,
+    ): CancelablePromise<ModelEngine> {
         return __request(OpenAPI, {
             method: 'PUT',
-            url: '/typefailure/{id}/',
+            url: '/modelengine/{id}/',
             path: {
                 'id': id,
             },
@@ -73,18 +73,18 @@ id: number,
     }
 
     /**
-     * @param id A unique integer value identifying this type failure.
+     * @param id A unique integer value identifying this model engine.
      * @param data 
-     * @returns TypeFailure 
+     * @returns ModelEngine 
      * @throws ApiError
      */
-    public static typefailurePartialUpdate(
+    public static modelenginePartialUpdate(
 id: number,
-data: TypeFailure,
-): CancelablePromise<TypeFailure> {
+data: ModelEngine,
+): CancelablePromise<ModelEngine> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: '/typefailure/{id}/',
+            url: '/modelengine/{id}/',
             path: {
                 'id': id,
             },
@@ -93,16 +93,16 @@ data: TypeFailure,
     }
 
     /**
-     * @param id A unique integer value identifying this type failure.
+     * @param id A unique integer value identifying this model engine.
      * @returns void 
      * @throws ApiError
      */
-    public static typefailureDelete(
+    public static modelengineDelete(
         id: number | undefined,
     ): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/typefailure/{id}/',
+            url: '/modelengine/{id}/',
             path: {
                 'id': id,
             },

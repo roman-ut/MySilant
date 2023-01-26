@@ -1,51 +1,51 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { TypeFailure } from '../models/TypeFailure';
+import type { ModelDriveAxle } from '../models/ModelDriveAxle';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
-export class TypefailureService {
+export class ModeldriveaxleService {
 
     /**
-     * @returns TypeFailure 
+     * @returns ModelDriveAxle 
      * @throws ApiError
      */
-    public static typefailureList(): CancelablePromise<Array<TypeFailure>> {
+    public static modeldriveaxleList(): CancelablePromise<Array<ModelDriveAxle>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/typefailure/',
+            url: '/modeldriveaxle/',
         });
     }
 
     /**
      * @param data 
-     * @returns TypeFailure 
+     * @returns ModelDriveAxle 
      * @throws ApiError
      */
-    public static typefailureCreate(
-data: TypeFailure,
-): CancelablePromise<TypeFailure> {
+    public static modeldriveaxleCreate(
+data: ModelDriveAxle,
+): CancelablePromise<ModelDriveAxle> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/typefailure/',
+            url: '/modeldriveaxle/',
             body: data,
         });
     }
 
     /**
-     * @param id A unique integer value identifying this type failure.
-     * @returns TypeFailure 
+     * @param id A unique integer value identifying this model drive axle.
+     * @returns ModelDriveAxle 
      * @throws ApiError
      */
-    public static typefailureRead(
+    public static modeldriveaxleRead(
 id: number,
-): CancelablePromise<TypeFailure> {
+): CancelablePromise<ModelDriveAxle> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/typefailure/{id}/',
+            url: '/modeldriveaxle/{id}/',
             path: {
                 'id': id,
             },
@@ -53,18 +53,18 @@ id: number,
     }
 
     /**
-     * @param id A unique integer value identifying this type failure.
+     * @param id A unique integer value identifying this model drive axle.
      * @param data 
-     * @returns TypeFailure 
+     * @returns ModelDriveAxle 
      * @throws ApiError
      */
-    public static typefailureUpdate(
+    public static modeldriveaxleUpdate(
         id: number | undefined,
-        data: TypeFailure,
-    ): CancelablePromise<TypeFailure> {
+        data: ModelDriveAxle,
+    ): CancelablePromise<ModelDriveAxle> {
         return __request(OpenAPI, {
             method: 'PUT',
-            url: '/typefailure/{id}/',
+            url: '/modeldriveaxle/{id}/',
             path: {
                 'id': id,
             },
@@ -73,18 +73,18 @@ id: number,
     }
 
     /**
-     * @param id A unique integer value identifying this type failure.
+     * @param id A unique integer value identifying this model drive axle.
      * @param data 
-     * @returns TypeFailure 
+     * @returns ModelDriveAxle 
      * @throws ApiError
      */
-    public static typefailurePartialUpdate(
+    public static modeldriveaxlePartialUpdate(
 id: number,
-data: TypeFailure,
-): CancelablePromise<TypeFailure> {
+data: ModelDriveAxle,
+): CancelablePromise<ModelDriveAxle> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: '/typefailure/{id}/',
+            url: '/modeldriveaxle/{id}/',
             path: {
                 'id': id,
             },
@@ -93,16 +93,16 @@ data: TypeFailure,
     }
 
     /**
-     * @param id A unique integer value identifying this type failure.
+     * @param id A unique integer value identifying this model drive axle.
      * @returns void 
      * @throws ApiError
      */
-    public static typefailureDelete(
+    public static modeldriveaxleDelete(
         id: number | undefined,
     ): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/typefailure/{id}/',
+            url: '/modeldriveaxle/{id}/',
             path: {
                 'id': id,
             },

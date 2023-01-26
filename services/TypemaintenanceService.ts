@@ -1,51 +1,51 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { TypeFailure } from '../models/TypeFailure';
+import type { TypeMaintenance } from '../models/TypeMaintenance';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
-export class TypefailureService {
+export class TypemaintenanceService {
 
     /**
-     * @returns TypeFailure 
+     * @returns TypeMaintenance 
      * @throws ApiError
      */
-    public static typefailureList(): CancelablePromise<Array<TypeFailure>> {
+    public static typemaintenanceList(): CancelablePromise<Array<TypeMaintenance>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/typefailure/',
+            url: '/typemaintenance/',
         });
     }
 
     /**
      * @param data 
-     * @returns TypeFailure 
+     * @returns TypeMaintenance 
      * @throws ApiError
      */
-    public static typefailureCreate(
-data: TypeFailure,
-): CancelablePromise<TypeFailure> {
+    public static typemaintenanceCreate(
+data: TypeMaintenance,
+): CancelablePromise<TypeMaintenance> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/typefailure/',
+            url: '/typemaintenance/',
             body: data,
         });
     }
 
     /**
-     * @param id A unique integer value identifying this type failure.
-     * @returns TypeFailure 
+     * @param id A unique integer value identifying this type maintenance.
+     * @returns TypeMaintenance 
      * @throws ApiError
      */
-    public static typefailureRead(
+    public static typemaintenanceRead(
 id: number,
-): CancelablePromise<TypeFailure> {
+): CancelablePromise<TypeMaintenance> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/typefailure/{id}/',
+            url: '/typemaintenance/{id}/',
             path: {
                 'id': id,
             },
@@ -53,18 +53,18 @@ id: number,
     }
 
     /**
-     * @param id A unique integer value identifying this type failure.
+     * @param id A unique integer value identifying this type maintenance.
      * @param data 
-     * @returns TypeFailure 
+     * @returns TypeMaintenance 
      * @throws ApiError
      */
-    public static typefailureUpdate(
+    public static typemaintenanceUpdate(
         id: number | undefined,
-        data: TypeFailure,
-    ): CancelablePromise<TypeFailure> {
+        data: TypeMaintenance,
+    ): CancelablePromise<TypeMaintenance> {
         return __request(OpenAPI, {
             method: 'PUT',
-            url: '/typefailure/{id}/',
+            url: '/typemaintenance/{id}/',
             path: {
                 'id': id,
             },
@@ -73,18 +73,18 @@ id: number,
     }
 
     /**
-     * @param id A unique integer value identifying this type failure.
+     * @param id A unique integer value identifying this type maintenance.
      * @param data 
-     * @returns TypeFailure 
+     * @returns TypeMaintenance 
      * @throws ApiError
      */
-    public static typefailurePartialUpdate(
+    public static typemaintenancePartialUpdate(
 id: number,
-data: TypeFailure,
-): CancelablePromise<TypeFailure> {
+data: TypeMaintenance,
+): CancelablePromise<TypeMaintenance> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: '/typefailure/{id}/',
+            url: '/typemaintenance/{id}/',
             path: {
                 'id': id,
             },
@@ -93,16 +93,16 @@ data: TypeFailure,
     }
 
     /**
-     * @param id A unique integer value identifying this type failure.
+     * @param id A unique integer value identifying this type maintenance.
      * @returns void 
      * @throws ApiError
      */
-    public static typefailureDelete(
+    public static typemaintenanceDelete(
         id: number | undefined,
     ): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/typefailure/{id}/',
+            url: '/typemaintenance/{id}/',
             path: {
                 'id': id,
             },

@@ -1,51 +1,51 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { TypeFailure } from '../models/TypeFailure';
+import type { RecoveryMethod } from '../models/RecoveryMethod';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
-export class TypefailureService {
+export class RecoverymethodService {
 
     /**
-     * @returns TypeFailure 
+     * @returns RecoveryMethod 
      * @throws ApiError
      */
-    public static typefailureList(): CancelablePromise<Array<TypeFailure>> {
+    public static recoverymethodList(): CancelablePromise<Array<RecoveryMethod>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/typefailure/',
+            url: '/recoverymethod/',
         });
     }
 
     /**
      * @param data 
-     * @returns TypeFailure 
+     * @returns RecoveryMethod 
      * @throws ApiError
      */
-    public static typefailureCreate(
-data: TypeFailure,
-): CancelablePromise<TypeFailure> {
+    public static recoverymethodCreate(
+data: RecoveryMethod,
+): CancelablePromise<RecoveryMethod> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/typefailure/',
+            url: '/recoverymethod/',
             body: data,
         });
     }
 
     /**
-     * @param id A unique integer value identifying this type failure.
-     * @returns TypeFailure 
+     * @param id A unique integer value identifying this recovery method.
+     * @returns RecoveryMethod 
      * @throws ApiError
      */
-    public static typefailureRead(
+    public static recoverymethodRead(
 id: number,
-): CancelablePromise<TypeFailure> {
+): CancelablePromise<RecoveryMethod> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/typefailure/{id}/',
+            url: '/recoverymethod/{id}/',
             path: {
                 'id': id,
             },
@@ -53,18 +53,18 @@ id: number,
     }
 
     /**
-     * @param id A unique integer value identifying this type failure.
+     * @param id A unique integer value identifying this recovery method.
      * @param data 
-     * @returns TypeFailure 
+     * @returns RecoveryMethod 
      * @throws ApiError
      */
-    public static typefailureUpdate(
+    public static recoverymethodUpdate(
         id: number | undefined,
-        data: TypeFailure,
-    ): CancelablePromise<TypeFailure> {
+        data: RecoveryMethod,
+    ): CancelablePromise<RecoveryMethod> {
         return __request(OpenAPI, {
             method: 'PUT',
-            url: '/typefailure/{id}/',
+            url: '/recoverymethod/{id}/',
             path: {
                 'id': id,
             },
@@ -73,18 +73,18 @@ id: number,
     }
 
     /**
-     * @param id A unique integer value identifying this type failure.
+     * @param id A unique integer value identifying this recovery method.
      * @param data 
-     * @returns TypeFailure 
+     * @returns RecoveryMethod 
      * @throws ApiError
      */
-    public static typefailurePartialUpdate(
+    public static recoverymethodPartialUpdate(
 id: number,
-data: TypeFailure,
-): CancelablePromise<TypeFailure> {
+data: RecoveryMethod,
+): CancelablePromise<RecoveryMethod> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: '/typefailure/{id}/',
+            url: '/recoverymethod/{id}/',
             path: {
                 'id': id,
             },
@@ -93,16 +93,16 @@ data: TypeFailure,
     }
 
     /**
-     * @param id A unique integer value identifying this type failure.
+     * @param id A unique integer value identifying this recovery method.
      * @returns void 
      * @throws ApiError
      */
-    public static typefailureDelete(
+    public static recoverymethodDelete(
         id: number | undefined,
     ): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/typefailure/{id}/',
+            url: '/recoverymethod/{id}/',
             path: {
                 'id': id,
             },

@@ -1,51 +1,51 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { TypeFailure } from '../models/TypeFailure';
+import type { ModelSteeringAxle } from '../models/ModelSteeringAxle';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
-export class TypefailureService {
+export class ModelsteeringaxleService {
 
     /**
-     * @returns TypeFailure 
+     * @returns ModelSteeringAxle 
      * @throws ApiError
      */
-    public static typefailureList(): CancelablePromise<Array<TypeFailure>> {
+    public static modelsteeringaxleList(): CancelablePromise<Array<ModelSteeringAxle>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/typefailure/',
+            url: '/modelsteeringaxle/',
         });
     }
 
     /**
      * @param data 
-     * @returns TypeFailure 
+     * @returns ModelSteeringAxle 
      * @throws ApiError
      */
-    public static typefailureCreate(
-data: TypeFailure,
-): CancelablePromise<TypeFailure> {
+    public static modelsteeringaxleCreate(
+data: ModelSteeringAxle,
+): CancelablePromise<ModelSteeringAxle> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/typefailure/',
+            url: '/modelsteeringaxle/',
             body: data,
         });
     }
 
     /**
-     * @param id A unique integer value identifying this type failure.
-     * @returns TypeFailure 
+     * @param id A unique integer value identifying this model steering axle.
+     * @returns ModelSteeringAxle 
      * @throws ApiError
      */
-    public static typefailureRead(
+    public static modelsteeringaxleRead(
 id: number,
-): CancelablePromise<TypeFailure> {
+): CancelablePromise<ModelSteeringAxle> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/typefailure/{id}/',
+            url: '/modelsteeringaxle/{id}/',
             path: {
                 'id': id,
             },
@@ -53,18 +53,18 @@ id: number,
     }
 
     /**
-     * @param id A unique integer value identifying this type failure.
+     * @param id A unique integer value identifying this model steering axle.
      * @param data 
-     * @returns TypeFailure 
+     * @returns ModelSteeringAxle 
      * @throws ApiError
      */
-    public static typefailureUpdate(
+    public static modelsteeringaxleUpdate(
         id: number | undefined,
-        data: TypeFailure,
-    ): CancelablePromise<TypeFailure> {
+        data: ModelSteeringAxle,
+    ): CancelablePromise<ModelSteeringAxle> {
         return __request(OpenAPI, {
             method: 'PUT',
-            url: '/typefailure/{id}/',
+            url: '/modelsteeringaxle/{id}/',
             path: {
                 'id': id,
             },
@@ -73,18 +73,18 @@ id: number,
     }
 
     /**
-     * @param id A unique integer value identifying this type failure.
+     * @param id A unique integer value identifying this model steering axle.
      * @param data 
-     * @returns TypeFailure 
+     * @returns ModelSteeringAxle 
      * @throws ApiError
      */
-    public static typefailurePartialUpdate(
+    public static modelsteeringaxlePartialUpdate(
 id: number,
-data: TypeFailure,
-): CancelablePromise<TypeFailure> {
+data: ModelSteeringAxle,
+): CancelablePromise<ModelSteeringAxle> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: '/typefailure/{id}/',
+            url: '/modelsteeringaxle/{id}/',
             path: {
                 'id': id,
             },
@@ -93,16 +93,16 @@ data: TypeFailure,
     }
 
     /**
-     * @param id A unique integer value identifying this type failure.
+     * @param id A unique integer value identifying this model steering axle.
      * @returns void 
      * @throws ApiError
      */
-    public static typefailureDelete(
+    public static modelsteeringaxleDelete(
         id: number | undefined,
     ): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/typefailure/{id}/',
+            url: '/modelsteeringaxle/{id}/',
             path: {
                 'id': id,
             },
