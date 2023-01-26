@@ -61,6 +61,9 @@ class ModelSteeringAxle(ReferenceBook):
 class ServiceCompany(ReferenceBook):
     user = models.ForeignKey(UserSilant, on_delete=models.PROTECT)
 
+    def name(self) -> str:
+        return f'{self.user.silUser.username}:{self.user.silUser.last_name} {self.user.silUser.first_name}'
+
 
 class Machine(models.Model):
     serNumM = models.CharField(max_length=30)

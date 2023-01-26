@@ -9,7 +9,7 @@ function ServiceCompanyItem(props:ServiceCompany) {
         <tr className={"servicecompany"}>
             <td>{props.title}</td>
             <td>{props.description}</td>
-            <td>{props.user}</td>
+            <td>{props.name}</td>
         </tr>
     );
 
@@ -37,8 +37,13 @@ export default function ServiceCompanyList({isLoggedIn, token}:any) {
                 <h3>Список сервисных компаний</h3>
                 <div className="table2">
                     <Table striped bordered hover className={"table22"}>
-                        <thead><tr><th>Наименование компании</th><th>Описание</th><th>Сотрудник компании</th>
-                        </tr></thead>
+                        <thead>
+                            <tr>
+                                <th>Наименование компании</th>
+                                <th>Описание</th>
+                                <th>Сотрудник компании (login: Имя)</th>
+                            </tr>
+                        </thead>
                         <tbody>
                         {servicecompanys && servicecompanys.map(servicecompany =>
                         {return <ServiceCompanyItem key={servicecompany.id} {...servicecompany}/>;})}

@@ -3,8 +3,8 @@
 /* eslint-disable */
 
 export type ServiceCompany = {
-    readonly id?: number;
+    readonly name?: string;
     title: string;
     description?: string | null;
-    user: number;
+    readonly id?: number;
 };

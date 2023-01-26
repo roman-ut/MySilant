@@ -36,7 +36,6 @@ class MaintenanceSerializer(ModelSerializer):
                   'service_company', 'machine_title', 'serviceCompany', 'machine', 'type')
 
 
-
 class ClaimSerializer(ModelSerializer):
 
     class Meta:
@@ -44,6 +43,7 @@ class ClaimSerializer(ModelSerializer):
         fields = ('id', 'dateRejection', 'operTime', 'typefailure_title', 'typefailure_description',
                   'failDescription', 'recmethode_title', 'recmethode_description', 'spareParts', 'dateRecovery',
                   'downtime', 'machine_title', 'service_company', 'typeFailure', 'recMethod', 'machine')
+
 
 class ModelMachineSerializer(ModelSerializer):
     class Meta:
@@ -78,7 +78,7 @@ class ModelSteeringAxleSerializer(ModelSerializer):
 class ServiceCompanySerializer(ModelSerializer):
     class Meta:
         model = ServiceCompany
-        fields = "__all__"
+        fields = ('name', 'title', 'description', 'id')
 
 
 class TypeMaintenanceSerializer(ModelSerializer):

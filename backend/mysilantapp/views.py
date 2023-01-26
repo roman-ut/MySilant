@@ -1,7 +1,6 @@
-from django.db.models import Q
 from rest_framework import filters
-from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView, RetrieveAPIView
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny, IsAuthenticatedOrReadOnly
+from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.authentication import TokenAuthentication
 from . import serializers
 from .filters import MachineFilter, MaintenanceFilter, ClaimFilter
@@ -57,8 +56,6 @@ class MachineAPIViewDetail(RetrieveUpdateDestroyAPIView):
     queryset = Machine.objects.all()
     permission_classes = (AllowAny,)
     authentication_classes = (TokenAuthentication,)
-
-
 
 
 class MaintenanceAPIView(ListCreateAPIView):
