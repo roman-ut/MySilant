@@ -65,7 +65,6 @@ class MaintenanceAPIView(ListCreateAPIView):
     authentication_classes = (TokenAuthentication,)
     filterset_class = MaintenanceFilter
     ordering = ['date']
-    filter_backends = [filters.OrderingFilter]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
